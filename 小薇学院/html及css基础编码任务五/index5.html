@@ -1,0 +1,389 @@
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by anonymous (http://jsbin.com/bohetiqoyo/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>百度零基础html编码</title>
+<style id="jsbin-css">
+* {
+	margin: 0;
+	padding: 0;
+}
+			
+header{
+  width:100%;
+  height:60px;
+  background-color:#3e3e3e;
+}
+body{
+  background-color:#eee
+}
+.logo{
+  float:left;
+}
+header .logo img{
+  margin-left:2px;
+  margin-top:-10px;
+  height:80px;
+  width:120px;
+}
+.menu{
+  float:right;
+  font-size:12px;
+  line-height:60px;
+}
+.menu li{
+  float:left;
+  margin-left:15px;
+  margin-right:20px;
+}
+.menu li a{
+  color:#fff;
+}
+h3{
+  color:#555;
+}
+h4{
+  color:#999;
+}
+
+img{
+  width:200px;
+  height:150px;
+}
+
+.firstArtcile,
+.secondArtcile,
+.lastArtcile,
+aside
+{
+  margin:22px 390px 22px 22px;
+  padding:20px;
+  background-color:#fff;
+  box-shadow:2px 2px 1px 1px #ccc;
+}
+aside{
+  margin:22px;
+  float:right;
+  width:300px;
+}
+.firstArcticle_Arcticle{
+  text-indent：2em;
+}
+.secondArtcile{
+  overflow:auto;
+}
+.ImgBox{
+	float:left;
+  border:1px solid #ccc;
+  width:130px;
+  height:130px;
+  padding:6px;
+  text-align:center;
+  font-size:12px;
+  margin-left:50px;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+.ImgBox p{
+  margin-bottom:5px;
+  margin:0;
+  padding:0;
+}
+.ImgBox img{
+  width:120px;
+  height:106px;
+}
+.paiMing{
+  font-weight:bold;
+  margin-left:50px;
+}
+.lastArtcile table{
+  width:100%;
+}
+table,td{
+  border:1px solid #ccc;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.lastArtcile thead{
+  background-color:#333;
+  color:#fff
+}
+.lastArtcile tfoot{
+  background-color:#ccc
+}
+aside h2{
+  border-left:4px solid #bbb;
+  padding-left:10px;
+  margin-bottom:20px;
+}
+form{
+  display:block;
+  font-size:14px;
+}
+.eMil{
+
+}
+.error{
+  color:#a9a9a9;
+  margin-left:106px;
+  margin-top:-10px;
+}
+.PassWord{
+  margin-left:28px;
+}
+
+.Sex{
+  margin-left:60px;
+  margin-bottom:10px;
+}
+.City{
+  margin-left:60px;
+  margin-bottom:10px;
+}
+.Hobby{
+  margin-left:60px;
+  margin-bottom:10px;
+}
+.Discription{
+  margin-left:30px;
+  margin-bottom:10px;
+}
+#Sub{
+  width:100%;
+  height:40px;
+  background-color:#4545ff;
+  border:none;
+  border-radius:10px;
+  color:#fff;
+  font-size:18px;
+  font-weight:bold;
+}
+footer{
+  width:100%;
+  height:50px;
+  background-color:#000;
+  text-align:center;
+  color:#fff;
+}
+</style>
+</head>
+<body>
+  <header>
+    <h1 class="logo">
+      <img src="http://a2.qpic.cn/psb?/V13p8bTJ0mJAEI/tfuzVNpbQ7NPh996h*bahJArHaWHOTr5nWfpTWd9Gbo!/m/dFUBAAAAAAAA&bo=RAJ5AQAAAAADBxw!&rf=photolist" alt="百度logo">
+    </h1>
+    <ul class="menu">
+      <li><a href="#title1">导航链接1</a></li>
+      <li><a href="#title2">导航链接2</a></li>
+      <li><a href="#title3">导航链接3</a></li>
+      <li><a href="#title4">导航链接4</a></li>
+    </ul>
+  </header>
+  <aside>
+    <h2 id=title4>这以后是一个侧栏，这是侧栏标题</h2>
+    
+    <form method="post" action="">
+      <p class="eMil">
+         <label for="mail">请输入邮箱地址&nbsp;</label>
+      <input id="mail" placeholder="这是一个文本输入框" autofocus="" type="email">
+      </p>
+      <br>
+      <p class="error">邮箱地址请按要求格式输入</p> 
+      <br>
+      <p class="PassWord">
+        <label for="Pw">请输入密码&nbsp;</label>
+      <input id="Pw" value="这是一个文本输入框" maxlength="16" required="required" type="password">
+      </p>
+      <p class="rePassWord">
+        <label for="rePw">请重复输入密码&nbsp;</label>
+      <input id="rePw" placeholder="这是一个文本输入框" maxlength="16" type="password">    
+      </p>
+      <br>
+      <p class="error">密码为6-16位英文数字</p>
+      <br>
+      <p class="Sex">
+        性别：
+        <label for="sexMan">
+          <input id="sedMan" name="sex" step="16" checked="" type="radio">
+          男
+        </label>
+        <label for="sexWoman">
+          <input id="sexWoman" name="sex" step="16" type="radio">
+          女
+        </label>
+      </p>
+      <p class="City">
+        城市：
+        <select name="city" id="">
+          <option value="北京市" selected="">北京市</option>
+          <option value="广州市">广州市</option>
+          <option value="上海市">上海市</option>
+          <option value="西红柿">西红柿</option>
+          <option value="大城小事">大城小事</option>
+        </select>
+      </p>
+      <p class="Hobby">
+          爱好：
+        <label for="hobby">
+          <input name="hobby" value="" type="checkbox">
+          运动
+        </label>
+        <label for="hobby">
+          <input name="hobby" value="" type="checkbox">
+          艺术
+        </label>
+        <label for="hobby">
+          <input name="hobby" value="" type="checkbox">
+          科学
+        </label>
+      </p>
+       <p class="Discription">
+          个人描述：
+          <textarea rows="" cols="">这是一个多行输入框，您可以输入您的个人描述</textarea>
+       </p>
+   
+       <input id="Sub" value="确认提交" type="submit">
+             
+    </form>
+  </aside>
+  <main>
+    <div class="firstArtcile">
+      <h2 id="title1">文章一级标题</h2>
+      <h3>文章二级标题</h3>
+      <div>
+        <h4>文章作者 文章发表时间</h4>
+        <p class="firstArcticle_Arcticle">百度前端技术学院的课程任务是由百度前端工程师专为对前端不同掌握程度的同学设计。我们尽力保证课程内容的质量以及学习难度的合理性，但即使如此，真正决定课程效果的，还是你的每一次思考和实践。<br>
+        课程多数题目的解决方案都不是唯一的，这和我们在实际工作中的情况也是一致的。<strong>这里有个粗体字</strong>因此，我们的要求不仅仅是实现设计稿的效果，更是要多去思考不同的解决方案，评估不同方案的优劣，然后使用在该场景下最优雅的方式去实现。<a href="http://ife.baidu.com">这里有一个链接链接到http://ife.baidu.com</a>那些最终没有被我们采纳的方案，同样也可以帮助我们学到很多知识。所以，我们列出的参考资料未必是实现需求所必须的。有的时候，实现题目的要求很简单，甚至参考资料里就有，但是背后的思考和亲手去实践却是任务最关键的一部分。在学习这些资料时，要多思考，多提问，多质疑。相信通过和小伙伴们的交流，能让你的学习事半功倍。
+        </p>
+        <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        <p>
+          百度前端技术学院的课程任务是由百度前端工程师专为对前端不同掌握程度的同学设计。我们尽力保证课程内容的质量以及学习难度的合理性，但即使如此，真正决定课程效果的，还是你的每一次思考和实践。<br>
+          课程多数题目的解决方案都不是唯一的，这和我们在实际工作中的情况也是一致的。因此，<strong>这里有个粗体字</strong>我们的要求不仅仅是实现设计稿的效果，更是要多去思考不同的解决方案，评估不同方案的优劣，然后使用在该场景下最优雅的方式去实现。<a href="http://ife.baidu.com" target="view_window">点击链接在新窗口打开http://ife.baidu.com</a>那些最终没有被我们采纳的方案，同样也可以帮助我们学到很多知识。所以，我们列出的参考资料未必是实现需求所必须的。有的时候，实现题目的要求很简单，甚至参考资料里就有，但是背后的思考和亲手去实践却是任务最关键的一部分。在学习这些资料时，要多思考，多提问，多质疑。相信通过和小伙伴们的交流，能让你的学习事半功倍。
+        </p>
+      </div>
+    </div>
+    <div class="secondArtcile">
+      <h2 id=title2>另一篇文章一级标题</h2>
+      <h3>文章二级标题</h3>
+      <div>
+        <h4>文章作者 文章发表时间</h4>
+        <p>
+          百度前端技术学院的课程任务是由百度前端工程师专为对前端不同掌握程度的同学设计。我们尽力保证课程内容的质量以及学习难度的合理性，但即使如此，真正决定课程效果的，还是你的每一次思考和实践。<br>
+          课程多数题目的解决方案都不是唯一的，这和我们在实际工作中的情况也是一致的。<strong>这里有个粗体字</strong>因此，我们的要求不仅仅是实现设计稿的效果，更是要多去思考不同的解决方案，评估不同方案的优劣，然后使用在该场景下最优雅的方式去实现。<a href="http://ife.baidu.com">这个链接链接到ife.baidu.com</a>那些最终没有被我们采纳的方案，同样也可以帮助我们学到很多知识。所以，我们列出的参考资料未必是实现需求所必须的。有的时候，实现题目的要求很简单，甚至参考资料里就有，但是背后的思考和亲手去实践却是任务最关键的一部分。在学习这些资料时，要多思考，多提问，多质疑。相信通过和小伙伴们的交流，能让你的学习事半功倍。
+        </p>
+        <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        <ul>
+          <li>列表项目一</li>
+          <li>列表项目二</li>
+          <li>列表项目三</li>
+        </ul>
+        <h4>图片</h4>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+        <figure class="ImgBox">
+          <p>好看的图片</p>
+          <img src="http://www.w3school.com.cn/i/eg_tulip.jpg" alt="你看不见我看不见我">
+        </figure>
+      </div>
+    </div>
+    <div class="lastArtcile">
+      <h2 id=title3>最后一篇文章一级标题</h2>
+      <h3>文章二级标题</h3>
+      <div>
+        <h4>文章作者 文章发表时间</h4>
+        <ol class="paiMing">
+          <li>排名1</li>
+          <li>排名2</li>
+          <li>排名3</li>
+        </ol>        
+      </div>
+      <p>下面是一个表格，给表格加了一个border="1"好让你看出是一个表格</p>
+      <table border="1">
+        <thead>
+          <tr>
+            <td>表头</td>
+            <td>表头</td>
+            <td>表头</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>表内容单元格</td>
+            <td>表内容单元格</td>
+            <td><a href="#">操作</a></td>
+          </tr>
+          <tr>
+            <td>表内容单元格</td>
+            <td>表内容单元格</td>
+            <td><a href="#">操作</a></td>
+          </tr>
+          <tr>
+            <td>表内容单元格</td>
+            <td>表内容单元格</td>
+            <td><a href="#">操作</a></td>
+          </tr>
+          <tr>
+            <td>表内容单元格</td>
+            <td>表内容单元格</td>
+            <td><a href="#">操作</a></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>总计</td>
+            <td colspan="2">1000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </main>
+  
+  <footer>
+    <p>版权所有 © 2017</p>
+    <adress>iSoledadi</address>
+  </footer>
+</body>
+</html>
