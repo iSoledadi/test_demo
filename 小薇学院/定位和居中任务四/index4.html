@@ -1,0 +1,64 @@
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by anonymous (http://jsbin.com/bohetiqoyo/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+  <head>
+    <title>定位和居中</title>
+    <meta charset="utf-8">
+  <style id="jsbin-css">
+*{
+  margin:0;
+  border:0;
+}
+html,body{
+  height:100%;
+}
+.floater{
+  float:left;
+  height:50%;
+  margin-bottom:-120px;
+}
+.box{
+  position:relative;
+  margin:0 auto;
+  clear:both;
+  height:200px;
+  background-color:#ccc;
+  width:400px;
+  overflow:hidden;
+
+}
+.circle-lt{
+  position:absolute;
+  border-radius:0 0 100% 0;
+  background-color:#fc0;
+  left:0;
+  top:0;
+  height:50px;
+  width:50px;
+}
+.circle-rb{
+  width:50px;
+  height:50px;
+  right:0;
+  bottom:0;
+  border-radius:100% 0 0 0;
+  background-color:#fc0;
+  position:absolute;
+}
+</style>
+</head>
+  <body>
+    <div class="floater"></div>
+    <div class="box">
+      <div class="circle-lt"></div>
+      <div class="circle-rb"></div>
+    </div>
+  </body>
+</html>
