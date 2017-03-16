@@ -1,0 +1,455 @@
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by anonymous (http://jsbin.com/comatuqugu/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>报纸排版</title>
+  <style id="jsbin-css">
+*{
+  margin:0;
+  padding:0;
+}
+.wrap{
+  width:980px;
+  height:1386px;
+  margin:0 auto;
+  background-color:#f9efd4;
+}
+.main{
+  width:892px;
+  height:100px;
+  margin:0 auto;
+}
+.header{
+  width:892px;
+  height:61px;
+  border-bottom:2px solid #938e8c;
+  overflow:auto;
+}
+.logo{
+  float:left;
+  width:110px;
+  height:61px;
+  background-color:#dc5d5c;
+  font:12px "黑体";
+  color:#fff;
+}
+.logo p{
+  margin-top:45px;
+  margin-left:4px;
+}
+.nav{
+  float:right;
+  width:782px;
+  height:61px;
+  
+}
+.nav p{
+  font:12px "黑体";
+  color:#d45d5c;
+  margin-top:45px;
+  margin-left:739;
+}
+.banner{
+  float:left;
+  margin-top:30px;
+  width:641px;
+  height:301px;
+  position:relative;
+}
+.banner .leftColor{
+  width:191px;
+  height:301px;
+  background-color:rgba(140,227,140,0.41);
+  position:absolute;
+  top:0;
+  left:0;
+}
+.banner .rightColor{
+  width:191px;
+  height:301px;
+  background-color:rgba(219,133,133,0.5);
+  position:absolute;
+  top:0;
+  right:0;
+}
+.bannerInformation{
+  float:right;
+  width:203px;
+  height:301px;
+  margin-top:30px;
+  margin-left:45px;
+  border-top:2px solid #cc8091;
+  padding-top:10px;
+}
+.bannerInformation .caption{
+  font:20px "微软雅黑";
+  text-decoration:underline;
+  color:#000;
+  margin-bottom:10px;
+}
+.bannerInformation .technologe{
+  font:12px "楷体";
+  color:#676767;
+}
+.date{
+  font:italic bold 116px "微软雅黑";
+  color:#75b86b;
+  margin-left:-15px;
+  margin-top:6px;
+}
+.num{
+  font:55px "微软雅黑";
+  color:#cc8091;
+  float:left;
+  margin-top:-20px;
+}
+h4{
+  float:left;
+  font:12px "微软雅黑";
+  color:#cc8091;
+  margin-top:-10px;
+}
+h4 span{
+  display:inline-block;
+  font:21px "微软雅黑";
+  color:#cc8091;
+  margin-top:5px;
+}
+.firstArticle{
+  width:250px;
+  float:left;
+  margin-right:20px;
+  text-align:justify;
+}
+.firstArticle h2{
+  font:16px bold "微软雅黑";
+  text-decoration:underline;
+  color:#418c59;  
+  margin-top:20px;
+  margin-bottom:10px;
+}
+.firstArticle p{
+  font:12px "宋体";
+  color:#767777;
+}
+.secondArticle{
+  float:left;
+  width:200px;
+  margin-right:20px;
+  text-align:justify;
+}
+.secondArticle h2{
+  font:16px bold "微软雅黑";
+  text-decoration:underline;
+  color:#d2994f;
+  margin-top:20px;
+  margin-bottom:10px;
+}
+.secondArticle p{
+  font:12px "微软雅黑";
+  color:#767777;
+  opacity:0.7;
+}
+.thirdArticle{
+  float:left;
+  width:140px;
+  margin-right:20px;
+  text-align:justify;
+}
+.thirdArticle h2{
+  font: 16px bold "微软雅黑";
+  text-decoration:underline;
+  color:#cc7680;
+  margin-top:20px;
+  margin-bottom:10px;
+}
+.thirdArticle p{
+  font:12px "宋体";
+  color:#767777;
+  opacity:0.7;
+}
+.thirdArticle li{
+  list-style:none;
+  font:12px "微软雅黑";
+  color:#231815;
+  opacity:0.7;
+}
+.thirdArticle span{
+  color:#cd4a48
+}
+.fourArticle{
+  width:415px;
+  float:left;
+  margin-top:50px;
+  text-align:justify;
+}
+.fourArticle h1{
+  font:bold 42px "黑体";
+  color:#11456b;
+  line-height:16px;
+}
+.fourArticle h1 span{
+  font:italic bold 72px "黑体";
+  color:#f5e327;
+}
+.fourArticle h2{
+  font:bold 33px "黑体";
+  color:#11456b;
+  margin-top:28px;
+  border-bottom:2px solid #11456b;
+}
+.fourArticle p.one{
+  margin-top:20px;
+}
+.fourArticle .one span{
+  font:70px "微软雅黑";
+  color:#f5e327;
+}
+.fourArticle img{
+  float:right;
+  margin:20px 0px 20px 20px;
+}
+.fourArticle .one~p{
+  text-indent:2em;
+}
+.photo{
+  width:458px;
+  height:257px;
+  margin-top:60px;
+  float:right;
+  position:relative;
+}
+.cover{
+  color:#fff;
+  width:458px;
+  height:61px;
+  left:0;
+  bottom:0;
+  background-color:rgba(0,0,0,0.7);
+  position:absolute;
+  z-index:1;
+}
+.font{
+  height:44px;
+  margin-left:30px;
+  border-left:3px solid #72b16a;
+  margin-top:10px;
+  padding-left:10px;
+  line-height:44px;
+}
+.font p{
+  font:26px "微软雅黑";
+  color:#fff;
+}
+.other{
+  float:right;
+  width:458px;
+  height:318px;
+  background-color:#e6dfd4;
+  margin-top:30px;
+  position:relative;
+}
+.list{
+  margin-top:30px;
+  margin-left:40px;
+}
+.other ul li{
+  line-height:36px;
+  list-style-type:none;
+  list-style-image:url(../img/icon.png);
+}
+.biao{
+  float:left;
+  width:260px;
+  height:160px;
+  background-color:#d45d5c;
+  position:absolute;
+  left:0;
+  bottom:0;
+  color:#fff;
+}
+.biao h1{
+  float:left;
+  height:86px;
+  font:110px "微软雅黑";
+  margin-left:10px;
+  margin-top:10px;
+}
+.biao p{
+  float:left;
+  width:170px;
+  height:86px;
+  border-left:2px solid #fff;
+  padding:6px;
+  font:12px "黑体";
+  margin-top:35px;
+}
+.biao p span{
+  font:italic 21px "黑体";
+}
+.cite{
+  width:190px;
+  height:160px;
+  position:absolute;
+  right:5px;
+  bottom:0;
+  font:italic 14px "黑体";
+  line-height:20px;
+  color:#5a5a5b;
+  text-align:justify;
+}
+.cite span{
+  font:40px "黑体";
+  color:#d45d5c;
+}
+.footer{
+  width:892px;
+  height:61px;
+  border-bottom:1px solid #938e8c;
+  clear:both;
+  position:relative;
+}
+.footer p{
+  font:12px "黑体";
+  color:#d45d5c;
+  position:absolute;
+  right:0;
+  bottom:-15px;
+}
+</style>
+</head>
+  <body>
+    <div class="wrap">
+      <div class="main">
+        <div class="header">
+          <div class="logo">
+            <p>ife.baidu.com</p>
+          </div>
+          <div class="nav">
+            <p>2017.03</p>
+          </div>
+        </div>
+        <div class="banner">
+          <img src="https://webzhang.coding.me/IFE_2017/HTML+CSS/Task%206/img/banner.jpg" alt="横幅">
+          <div class="leftColor"></div>
+          <div class="rightColor"></div>
+        </div>
+        <div class="bannerInformation clearfix">
+          <h2 class="caption">ABOUT TECHNOLOGE</h2>
+          <h3 class="technologe">
+            About technologe about technologe about technologe
+          </h3>
+          <h1 class="date">700</h1>
+          <h3 class="num">3.2</h3>
+          <h4>
+            <span>css</span>
+            <br>
+            cssssccsccscssc
+          </h4>
+          
+        </div>
+        <div style="clear:both"></div>
+        <div class="firstArticle">
+          <h2>What</h2>
+          <p>什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么</p>
+        </div>
+        <div class="secondArticle">
+          <h2>When</h2>
+          <p>啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候啥时候</p>
+        </div>
+        <div class="thirdArticle clearfix">
+          <h2>How</h2>
+          <p>怎么怎么怎么怎么怎么怎么</p>
+          <br>
+          <ul>
+            <li>
+              What------
+              <span>40%</span>
+            </li>
+            <li>
+              What------
+              <span>30%</span>
+            </li>
+            <li>
+              What------
+              <span>30%</span>
+            </li>
+          </ul>
+          <div sytle="clear:both"></div>
+          
+        </div>
+        <div style="clear: both"></div>
+        <div class="fourArticle">
+          <h1>
+            <span>THE</span>
+            TECHNOLOGE OF FRONT
+          </h1>
+          <h2>前端技术领域</h2>
+          <p class="one">
+            <span>前</span>端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术
+          </p>
+          <img src="https://webzhang.coding.me/IFE_2017/HTML+CSS/Task%206/img/acticlePhoto.jpg" alt="">
+          <p>
+            前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术
+          </p>
+          <p>
+            前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术前端技术
+          </p>
+        </div>
+        <div class="photo">
+          <img src="https://webzhang.coding.me/IFE_2017/HTML+CSS/Task%206/img/photo.jpg" alt="">
+          <div class="cover">
+            <div class="font">
+              <p>
+                前端技术
+                <span>前端技术前端技术</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="other">
+          <div class="list">
+            <ul>
+              <li>前端前端前端前端…………………………………………<span>前端</span></li>
+              <li>前端前端前端前…………………………………………<span>前端前</span></li>
+              <li>前端前端前端…………………………………………<span>前端前端</span></li>
+            </ul>
+          </div>
+          <div class="biao">
+            <h1>0</h1>
+            <p>
+              <span>
+                ONE TWO
+                <br>
+                THREE FOUR FIVE
+              </span>
+              <br>
+              hello world hello world hello world hello world
+            </p>
+          </div>
+          <div style="clear: both;"></div>
+          <div class="cite">
+            <p>
+              <span>“</span>
+              hello world hello world hello world hello world hello world hello world 
+              <span>”</span>
+            </p>
+          </div>
+        </div>
+        <div class="footer">
+          <p>
+            ife.baidu.com
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
