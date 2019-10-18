@@ -5,44 +5,3207 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>测试echarts图表</title>
-    <style>
-        html,body{
-            margin: 0;
-            padding: 0;
-            width:100%;
-            height:100%;
-            background:#789;
-        }
-        .content{
-            width:70%;
-            height:500px;
-            margin:0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/demo_03_echarts.css">
 </head>
-<body>
-    <div class="content">
-        <div id='test_echarts' style='width:100%;height:100%'></div>
+<body id='big_content'>
+    <div class="header">
+        <h1 class="header-title">
+            <span class="business_name">海川康尔智慧渔业大数据平台</span>
+        </h1>
+        <div class="header-item-outer">
+            <div id="header_time">
+                <span></span> - <span></span> - <span></span> &nbsp;<span></span> : <span></span> : <span></span>
+            </div>
+        </div>
     </div>
+    <div class="wrapper">
+        <div class="content">
+            <div class="col col-l">
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-l-t">
+                        <div class="title device_online_title">养殖总概况</div>
+                        <!-- 环形图 -->
+                        <div class="flex_cen" style='width:100%;height:100%;display:none'>
+                            <div style="width:50%;height:40%" id="record-ring-chart1"></div>
+                            <div style="width:50%;height:40%" id="record-ring-chart2"></div>
+                            <div style="width:50%;height:40%;margin-top: -10px" id="record-ring-chart3"></div>
+                        </div>
+                        <!-- 柱状图 -->
+                        <div class="out_water" style='text-align: right;display:none'>
+                            <span class="out_water_tab" onclick="selectWater($(this),'日')"><span class="spot">· </span>日 </span>
+                            <span class="out_water_tab" onclick="selectWater($(this),'周')"><span class="spot">· </span>周 </span>
+                            <span class="out_water_tab blue_active" onclick="selectWater($(this),'月')"><span class="spot">· </span>月 </span>
+                        </div>
+                        <div style='width:90%;height:80%;margin:0 auto;display:none' class="echarts" id="echarts-bar-chart"></div>
+                        <!-- 动画 -->
+                        <div id="jsi-flying-fish-container" class="container tohide"></div>
+                        <!-- 设备是否在线 -->
+                        <div id='device_online_chart' class="tohide"></div>
+
+                        <!-- 展示养殖总概况 -->
+                        <div class="yangzhi_all_outer tohide" style='height:70%'>
+                            <div class="yangzhi_item">
+                                <span class="item_title">车间/间</span>
+                                <span class="item_item">10</span>
+                            </div>
+                            <div class="yangzhi_item">
+                                <span class="item_title">塘口/个</span>
+                                <span class="item_item">20</span>
+                            </div>
+                            <div class="yangzhi_item">
+                                <span class="item_title">总产量/吨</span>
+                                <span class="item_item">27128</span>
+                            </div>
+                            <div class="yangzhi_item">
+                                <span class="item_title">总面积/平方米</span>
+                                <span class="item_item">358736</span>
+                            </div>
+                        </div>
+
+                        <!-- 养殖总概况改版2 -->
+                        <div class="yangzhi_type">
+                            <div class="type">
+                                <div class="test basic_1_up">机构（个）</div>
+                                <div class="num yangzhi_1_down">3</div>
+                            </div>
+                            <div class="type">
+                                <div class="test basic_2_up">养殖场（间）</div>
+                                <div class="num yangzhi_2_down">14</div>
+                            </div>
+                            <div class="type">
+                                <div class="test basic_3_up">塘口（个）</div>
+                                <div class="num yangzhi_3_down">51</div>
+                            </div>
+                            <div class="type">
+                                <div class="test basic_4_up">总面积（平方米）</div>
+                                <div class="num yangzhi_4_down">35537</div>
+                            </div>
+                            <div class="type">
+                                <div class="test basic_5_up">总产量（吨）</div>
+                                <div class="num yangzhi_5_down">278</div>
+                            </div>
+                            <div class="type">
+                                <div class="test basic_6_up">抽检（次）</div>
+                                <div class="num yangzhi_6_down">89</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="xpanel-wrapper xpanel-wrapper-40">
+                    <div class="xpanel xpanel-l-b">
+                        <div class="title">告警次数统计</div>
+                        <div style='width:100%;height:80%' class="col-sm-9 echarts" id="echarts-line-chart"></div>
+                    </div>
+                </div> -->
+
+                <!-- 养殖品种统计 -->
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-l-t">
+                        <div class="title title-long">养殖品种统计（养殖面积占比）</div>
+                        <div style='width:100%;height:80%' id="breeding_species_pie_chart" class="echarts"></div>
+                    </div>
+                </div>
+
+                <!-- 渔业疾病统计 -->
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-l-b">
+                        <div class="title title-long">渔业疾病统计</div>
+                        <div style='width:100%;height:80%' id="fish_sick_pie_chart" class="echarts"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-c">
+                <div class="xpanel-wrapper xpanel-wrapper-70 tohide">
+                    <div class="xpanel no-bg" style='display:flex;flex-direction: column;justify-content: center;overflow: hidden'>
+                        <!-- 广东省地图 -->
+                        <div style='width:100%;height:100%;display:none' id='map_guangdong'></div>
+                        <!-- 矩形树状图 -->
+                        <div style='width:100%;height:90%;padding-top: 5%;display:none' class="echarts" id='tree_map_base'></div>
+                        <!-- 轮播图 -->
+                        <div id="drag-container" class="tohide">
+                            <div id="spin-container">
+                                <!-- <img src="../img/login-window.png?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                                <img src="../img/login-window.png?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                                <img src="../img/login-window.png?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                                <img src="../img/login-window.png?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="">
+                                <img src="../img/login-window.png?auto=compress&cs=tinysrgb&dpr=1&w=500" alt=""> -->
+                                <!-- <p>智慧渔业大数据平台</p> -->
+                            </div>
+                            <div id="ground"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 塘口数量统计 -->
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-r-b">
+                        <div class="title">塘口数量统计（口）</div>
+                        <div style='width:100%;height:80%' id="tangkou_bar_chart" class="echarts"></div>
+                    </div>
+                </div>
+
+                <!-- 各品种投放量 -->
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-c-b">
+                        <div class="title title-long">各品种投放量（尾）</div>
+                        <div style='width:97%;height:80%;margin:0 auto;' id="fish_ground_bar_chart" class="echarts"></div>
+                        <!-- <div style='width:100%;height:80%;' id="fish_ground_bar_chart" class="echarts"></div> -->
+                    </div>
+                </div>
+
+                <!-- 预警统计 -->
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-l-b">
+                        <div class="title">预警统计（近一年）</div>
+                        <div style="width:100%;height:80%;overflow: hidden;">
+                            <div style="width:100%;height:100%" class="echarts" id="echarts-line-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="xpanel-wrapper xpanel-wrapper-30 tohide">
+                    <div class="xpanel xpanel-c-b">
+                        <div class="title title-long basic_title">机构总概况</div>
+                        <div class="each_type">
+                                <div class="type">
+                                    <div class="test basic_1_up">机构</div>
+                                    <div class="num basic_1_down">3</div>
+                                </div>
+                                <div class="type">
+                                    <div class="test basic_2_up">基地</div>
+                                    <div class="num basic_2_down">4</div>
+                                </div>
+                                <div class="type">
+                                    <div class="test basic_3_up">塘口</div>
+                                    <div class="num basic_3_down">21</div>
+                                </div>
+                                <div class="type">
+                                    <div class="test basic_4_up">总面积</div>
+                                    <div class="num basic_4_down">35537m²</div>
+                                </div>
+                                <div class="type">
+                                    <div class="test basic_5_up">养殖品种</div>
+                                    <div class="num basic_5_down">5</div>
+                                </div>
+                                <div class="type">
+                                    <div class="test basic_6_up">总产量</div>
+                                    <div class="num basic_6_down">278吨</div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-r">
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <!-- 模型数量统计 -->
+                    <div class="xpanel xpanel-r-t model_num_statistic_outer tohide">
+                        <div class="title model_num_title">模型数量统计</div>
+                        <div class="chart-div chart-done">
+                                <table class="data-t">
+                                    <tr class="fa_tr_1">
+                                        <th><img src="../imgs/icon-01.png" /></th>
+                                        <td>
+                                            <p><span id="listedCompany">8</span></p>
+                                            <p class="fa_title_1">水质因子动态变化模型</p>
+                                        </td>
+                                        <td class="ph_up_out tohide">
+                                            <p><span id="ph_up">无</span></p>
+                                            <p>PH上限值</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="fa_tr_2">
+                                        <th><img src="../imgs/icon-02.png" /></th>
+                                        <td>
+                                            <p><span id="listedSecurity">7</span></p>
+                                            <p class="fa_title_2">水质关键参数调控模型</p>
+                                        </td>
+                                        <td class="t_up_out tohide">
+                                            <p><span id="t_up">无</span></p>
+                                            <p>水温上限值</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="fa_tr_3">
+                                        <th><img src="../imgs/icon-03.png" /></th>
+                                        <td>
+                                            <p><span id="totalMarket">9</span></p>
+                                            <p class="fa_title_3">精准投料模型</p>
+                                        </td>
+                                        <td class="o2_up_out tohide">
+                                            <p><span id="o2_up">无</span></p>
+                                            <p>溶氧上限值</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="fa_tr_4">
+                                        <th><img src="../imgs/icon-04.png" /></th>
+                                        <td>
+                                            <p><span id="circulationMarket">5</span></p>
+                                            <p class="fa_title_4">循环水处理智能调控模型</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                    </div>
+                    <!-- 出放水记录 -->
+                    <div class="xpanel xpanel-r-t out_in_water_outer tohide">
+                        <div class="title">进排水记录</div>
+                        <div style='width:100%;height:80%' class="out_in_water_parent">
+                            <div class="echarts" id='out_in_water_chart'></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 设备状态 -->
+                    <div class="xpanel xpanel-r-t">
+                        <div class="title">设备状态 <span style="font-size: 17px;text-align: right;"></span></div>
+                        <div class="device_outer tohide">
+                            <div class="device_content">
+                                <div class="device_item">
+                                    <span>✅</span>
+                                    <span class="device_item_num">55</span>
+                                </div>
+                                <div class="device_item_title">在线</div>
+                            </div>
+                            <div class="device_content">
+                                <div class="device_item">
+                                    <span>⛔</span>
+                                    <span class="device_item_num">12</span>
+                                </div>
+                                <div class="device_item_title">离线</div>
+                            </div>
+                            <div class="device_content">
+                                <div class="device_item">
+                                    <span>❎</span>
+                                    <span class="device_item_num">1</span>
+                                </div>
+                                <div class="device_item_title">异常</div>
+                            </div>
+                        </div>
+                        <!-- 变成设备表格 -->
+                        <div class="device_detail_more">设备详情列表 ></div>
+                        <div class="device_list_out">
+                            <table class="device_list_table">
+                                <thead width='100%'>
+                                    <tr>
+                                        <th width='35%'>（总数68）</th>
+                                        <th width='25%'>在线✅</th>
+                                        <th width='25%'>离线⛔</th>
+                                        <th width='25%'>异常❎</th>
+                                    </tr>
+                                </thead>
+                                <tbody width='100%'>
+                                    <tr>
+                                        <td>xx养殖场xx养殖场xx养殖场xx养殖场xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>xx养殖场</td>
+                                        <td>12</td>
+                                        <td>3</td>
+                                        <td>1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="xpanel-wrapper xpanel-wrapper-30">
+                    <div class="xpanel xpanel-r-m">
+                        <div class="title"></div>
+                    </div>
+                </div> -->
+                <div class="xpanel-wrapper xpanel-wrapper-33 ">
+                    <div class="xpanel xpanel-r-b tohide">
+                        <div class="title">监控数据统计</div>
+                        <div style='width:100%;height:70%' class="flex_bt">
+                            <div style='width:33%;height:100%' id='water-ball-chart1'></div>
+                            <div style='width:33%;height:100%' id='water-ball-chart2'></div>
+                            <div style='width:33%;height:100%' id='water-ball-chart3'></div>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- 渔场数量统计 -->
+                    <div class="xpanel xpanel-r-b">
+                        <div class="title">养殖年产量（吨）</div>
+                        <div style='width:100%;height:80%' id="output_bar_chart" class="echarts"></div>
+                    </div>
+                </div>
+                
+                <!-- 负责人名单 -->
+                <div class="xpanel-wrapper xpanel-wrapper-33">
+                    <div class="xpanel xpanel-c-b">
+                        <div class="title title-long">负责人名单</div>
+                        <div class="person_outer">
+                            <span>张三</span> 
+                            <span>李四</span> 
+                            <span>王五</span> 
+                            <span>陈六</span> 
+                            <span>赵启</span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="device_more_out tohide">
+        <div id="device_more_content">
+            <div>0</div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+        </div>
+    </div>
+    
     <script src='../js/jquery/jquery-1.7.2.min.js'></script>
     <script src="../js/ecahrts/echarts-all4.js"></script>
     <script>
-        var testEcharts=echarts.init(document.getElementById("test_echarts"));
-        var testOption={
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        // 设备详情点击弹窗
+        $(".device_detail_more").click(function(){
+            // $(".device_more_out").removeClass("tohide");
+            // var deviceDetail=layer.open({
+            //     type: 1,
+            //     title: ['设备详情'],
+            //     skin: 'layer-device-myskin', //自定义皮肤 
+            //     area: ['50%', '70%'], //宽高
+            //     content: $("#device_more_content"), //DOM对象
+            //     maxmin: true,
+            //     scrollbar:false,
+            //     shade: [0.1, '#000'],
+            //     end:function(){
+            //         $(".device_more_out").addClass("tohide");
+            //         layer.close(deviceDetail);
+            //     }
+            // })
+        })
+        
+        // 获取登录用户名称及logo路径
+        // var ctx = [[@{/profile}]];
+        // function getUserNameLogo(){
+        //     $.ajax({
+        //         url:'/fish/icon/iconByuserId',
+        //         type:'get',
+        //         success:function(res){
+        //             // console.log(res);
+        //             $(".business_logo_img").attr("src",ctx+res.iconUrl);
+        //             $(".business_name").text(res.baseName);
+        //         }
+        //     })
+        // }
+        
+        // 固定表头
+        function fixedTableThead(){
+            var tableCont = document.querySelector('.device_list_table');
+            var tableout = document.querySelector('.device_list_out');
+            // console.log(123)
+            // console.log(tableCont)
+
+            function scrollHandle(e) {
+                var scrollTop = this.scrollTop;
+                // console.log(scrollTop)
+                this.querySelector('thead').style.transform = 'translateY(' + scrollTop + 'px)';
+            }
+            tableout.addEventListener('scroll', scrollHandle)
+        }
+        
+        // 塘口数量统计柱图
+        var tangkouBarChart = echarts.init(document.getElementById("tangkou_bar_chart"));
+        var tangkouBarOption={
+            //backgroundColor: '#00265f',
+            // title:{
+            //     "text": "最近6日场站用气量统计",
+            //     textStyle:{
+            //         color: '#fff',
+            //     }
+            // },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
             },
-            yAxis: {
-                type: 'value'
+            legend: {
+                show:true,
+                data: ['已使用', '未使用'],
+                // left:'right',
+                align: 'left',
+                top:'2%',
+                right:'5%',
+                textStyle: {
+                    color: "#fff"
+                },
+                itemWidth: 10,
+                itemHeight: 10,
+                itemGap: 35
+            },
+            grid: {
+                top:'18%',
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                data: ['1养殖场',
+                    '2养殖场',
+                    '3养殖场'
+                    
+                ],
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#00c7ff",
+                        width: 1,
+                        type: "solid"
+                    }
+                },
+                axisTick: {
+                    show: true,
+                },
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: "#00c7ff",
+                    }
+                },
+            }],
+            yAxis: [{
+                type: 'value',
+                name:'',
+                axisLabel: {
+                    formatter: '{value}'
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#00c7ff",
+                        width: 1,
+                        type: "solid"
+                    },
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: "#0F55B9",
+                    }
+                }
+            }],
+            series: [
+                {
+                    name: '已使用',
+                    type: 'bar',
+                    data: [18, 12, 11],
+                    barWidth: 16,
+                    barGap: 1,
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#00da9c'
+                            }, {
+                                offset: 1,
+                                color: '#007a55'
+                            }]),
+                            opacity: 1,
+                            barBorderRadius: 12,
+                        }
+                    }
+                }, 
+                {
+                    name: '未使用',
+                    type: 'bar',
+                    data: [4, 2, 1],
+                    barWidth: 16, //柱子宽度
+                    barGap: 1, //柱子之间间距
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#00C7E1'
+                            }, {
+                                offset: 1,
+                                color: '#005193'
+                            }]),
+                            opacity: 1,
+                            barBorderRadius: 12,
+                        }
+                    }
+                }
+            ]
+        }
+        tangkouBarChart.setOption(tangkouBarOption);
+        $(window).resize(tangkouBarChart.resize);
+
+        // 获取当地天气
+        function getNowWeather(){
+            $.ajax({
+                url:'https://www.apiopen.top/weatherApi',
+                type:'post',
+                data:{city:'广州'},
+                success:function(res){
+                    console.log(res)
+                }
+            })
+        }
+        
+        // 获取当前日期时间
+        function getNowDateTime(){
+            var show=document.getElementById("header_time").getElementsByTagName("span");
+            setInterval(function(){
+                var timer=new Date();
+                show[0].innerHTML=timer.getFullYear();
+                if(timer.getMonth()+1<10){
+                    show[1].innerHTML='0'+(timer.getMonth()+1);
+                }else{
+                    show[1].innerHTML=timer.getMonth()+1;
+                }
+                if(timer.getDate()<10){
+                    show[2].innerHTML='0'+timer.getDate();
+                }else{
+                    show[2].innerHTML=timer.getDate();
+                }
+                if(timer.getHours()<10){
+                    show[3].innerHTML='0'+timer.getHours();
+                }else{
+                    show[3].innerHTML=timer.getHours();
+                }
+                if(timer.getMinutes()<10){
+                    show[4].innerHTML='0'+timer.getMinutes();
+                }else{
+                    show[4].innerHTML=timer.getMinutes();
+                }
+                if(timer.getSeconds()<10){
+                    show[5].innerHTML='0'+timer.getSeconds();
+                }else{
+                    show[5].innerHTML=timer.getSeconds();
+                }
+            },500)
+        }
+        
+        // 养殖品种统计饼图
+        var breed_data = genData(50);
+        var breedPieChart = echarts.init(document.getElementById("breeding_species_pie_chart"));
+        var breedPieOption={
+            // title : {
+            //     text: '同名数量统计',
+            //     subtext: '纯属虚构',
+            //     x:'center'
+            // },
+            //color: [ '#c8f578', '#9df174', '#6fea8e', '#78f597', '#65db99', '#78f5af', '#7bebc3', '#78f5d7', '#78f4f5', '#78d6f5', '#78bff5', '#7899f5','#fe8eae', '#fea1cc', '#fca8e1', '#de9cfd', '#d0a8fc', '#fcba61', '#f5d978', '#f5ed78'],
+            color:['#fdb433','#58ca9d','#f66969','#b556cd','#50c7d1','#4fb14e','#a92a2a','#c9e968','#6573e0','#f48047'],
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 15,
+                top: 20,
+                bottom: 18,
+                pageIconColor: '#6495ed',//分页指示器颜色
+                pageTextStyle:{
+                    color:'#fff'//分页器数字颜色
+                },
+                data: ['鲫鱼','大头虾','螃蟹','罗非鱼','鲶鱼','鲢鱼','黄花鱼','广东鲂','太湖新银鱼','泥鳅','南方白甲鱼'],
+                selected: {'鲫鱼':true,'大头虾':true,'螃蟹':true,'罗非鱼':true,'鲶鱼':true,'鲢鱼':true,'黄花鱼':false,'广东鲂':false,'太湖新银鱼':false,'泥鳅':false,'南方白甲鱼':false},
+                // data: breed_data.legendData,
+                // selected: breed_data.selected,
+                textStyle:{
+                    color:'#fff'
+                }
+            },
+            series : [
+                {
+                    name: '姓名',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['40%', '50%'],
+                    data: [{name:'鲫鱼',value:85432},{name:'大头虾',value:28563},{name:'螃蟹',value:45668},{name:'罗非鱼',value:3319},{name:'鲶鱼',value:8221},{name:'鲢鱼',value:10066},{name:'黄花鱼',value:3844},{name:'广东鲂',value:28944},{name:'太湖新银鱼',value:52132},{name:'泥鳅',value:18895},{name:'南方白甲鱼',value:9832}],
+                    //data: breed_data.seriesData,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        breedPieChart.setOption(breedPieOption);
+        $(window).resize(breedPieChart.resize);
+
+        // 渔业疾病统计饼图
+        var fishSickPieChart = echarts.init(document.getElementById("fish_sick_pie_chart"));
+        var fishSickPieOption={
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 15,
+                top: 20,
+                bottom: 18,
+                pageIconColor: '#6495ed',//分页指示器颜色
+                pageTextStyle:{
+                    color:'#fff'//分页器数字颜色
+                },
+                data: breed_data.legendData,
+                selected: breed_data.selected,
+                textStyle:{
+                    color:'#fff'
+                }
+            },
+            series : [
+                {
+                    name: '姓名',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['40%', '50%'],
+                    data: breed_data.seriesData,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        fishSickPieChart.setOption(fishSickPieOption);
+        $(window).resize(fishSickPieChart.resize);
+
+        function genData(count) {
+            var nameList = [
+                '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
+            ];
+            var legendData = [];
+            var seriesData = [];
+            var selected = {};
+            for (var i = 0; i < 50; i++) {
+                name = Math.random() > 0.65
+                    ? makeWord(4, 1) + '·' + makeWord(3, 0)
+                    : makeWord(2, 1);
+                legendData.push(name);
+                seriesData.push({
+                    name: name,
+                    value: Math.round(Math.random() * 100000)
+                });
+                selected[name] = i < 6;
+            }
+            console.log(selected)
+            // var legendData = ['鲫鱼','大头虾','螃蟹','罗非鱼','鲶鱼','鲢鱼','黄花鱼','广东鲂','太湖新银鱼','泥鳅','南方白甲鱼'];
+            // var seriesData = [85432,28563,45668,3319,8221,10066,3844,28944,52132,18895,9832];
+            // var selected = {'鲫鱼':0,'大头虾':1,'螃蟹':2,'罗非鱼':3,'鲶鱼':4,'鲢鱼':5};
+
+
+            return {
+                legendData: legendData,
+                seriesData: seriesData,
+                selected: selected
+            };
+
+            function makeWord(max, min) {
+                var nameLen = Math.ceil(Math.random() * max + min);
+                var name = [];
+                for (var i = 0; i < nameLen; i++) {
+                    name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
+                }
+                return name.join('');
+            }
+        }
+
+        // 各品种养殖年产量柱图
+        var test_data = [
+            {
+                month: "鲫鱼",
+                value: 2500
+            },
+
+            {
+                month: "大头虾",
+                value: 2800
+            },
+
+            {
+                month: "螃蟹",
+                value: 3000
+            },
+
+            {
+                month: "罗非鱼",
+                value: 2600
+            },
+
+            {
+                month: "鲶鱼",
+                value: 3500
+            },
+            {
+                month: "鲢鱼",
+                value: 2500
+            },
+            {
+                month: "黄花鱼",
+                value: 3200
+            }
+            ,
+            {
+                month: "广东鲂",
+                value: 3100
+            },
+            {
+                month: "太湖新银鱼",
+                value: 2900
+            },
+            {
+                month: "泥鳅",
+                value: 2500
+            },
+            {
+                month: "南方白甲鱼",
+                value: 3600
+            },
+            {
+                month: "岩原鲤",
+                value: 3400
+            }
+
+        ];
+        var outputxData = [];
+        var outputyData = [];
+        test_data.map(function(a, b) {
+            outputxData.push(a.month);
+            outputyData.push(a.value);
+        });
+        var outputBarChart = echarts.init(document.getElementById("output_bar_chart"));
+        var outputOption={
+            backgroundColor:"#111c4e",
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line',
+                    lineStyle: {
+                        opacity: 0
+                    }
+                },
+                formatter: function(prams) {
+                    // console.log(prams)
+                    return prams[0].axisValue +"：" + prams[0].data + "吨"
+                }
+            },
+            legend: {
+                data: ['直接访问', '背景'],
+                show: false
+            },
+            grid: {
+                left: '5%',
+                right: '5%',
+                bottom: '5%',
+                top: '10%',
+                height: '85%',
+                containLabel: true,
+                z: 22
+            },
+            xAxis: [{
+                type: 'category',
+                gridIndex: 0,
+                data: outputxData,
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#0c3b71'
+                    }
+                },
+                axisLabel: {
+                    show: true,
+                    color: '#fff',
+                    // fontSize:16
+                }
+            }],
+            yAxis: [{
+                    type: 'value',
+                    // name:"单位:户",
+                    nameTextStyle:{
+                    color:"rgb(170,170,170)"  
+                    },
+                    gridIndex: 0,
+                    splitLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    // min: min,
+                    // max: 100,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#0c3b71'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#fff',
+                        formatter: '{value}'
+                    }
+                },
+                {
+                    type: 'value',
+                    gridIndex: 0,
+                    // min: 0,
+                    // max: 100,
+                    splitNumber: 12,
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false
+                    },
+                    splitArea: {
+                        show: true,
+                        areaStyle: {
+                            color: ['rgba(250,250,250,0.0)', 'rgba(250,250,250,0.05)']
+                        }
+                    }
+                }
+            ],
+            series: [{
+                    name: '合格率',
+                    type: 'bar',
+                    barWidth: '30%',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 30,
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#00feff'
+                                    },
+                                    {
+                                        offset: 0.5,
+                                        color: '#027eff'
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#0286ff'
+                                    }
+                                ]
+                            )
+                        }
+                    },
+                    data: outputyData,
+                    zlevel: 11
+
+                },
+                {
+                    name: '背景',
+                    type: 'bar',
+                    barWidth: '50%',
+                    xAxisIndex: 0,
+                    yAxisIndex: 1,
+                    barGap: '-135%',
+                    data: [100, 100, 100, 100, 100, 100, 100,100, 100, 100, 100, 100, 100, 100,100],
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(255,255,255,0.1)'
+                        }
+                    },
+                    zlevel: 9
+                },
+            
+            ]
+        };
+        outputBarChart.setOption(outputOption);
+        $(window).resize(outputBarChart.resize);
+
+        // 渔场数量统计柱图
+        var fishGroundBarChart = echarts.init(document.getElementById("fish_ground_bar_chart"));
+        var fishGroundOption={
+            // backgroundColor:"#111c4e",
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line',
+                    lineStyle: {
+                        opacity: 0
+                    }
+                },
+                formatter: function(prams) {
+                    return prams[0].axisValue+"：" + prams[0].data + "尾"
+                }
+            },
+            legend: {
+                data: ['直接访问', '背景'],
+                show: false
+            },
+            grid: {
+                left: '5%',
+                right: '5%',
+                bottom: '5%',
+                top: '10%',
+                height: '85%',
+                containLabel: true,
+                z: 22
+            },
+            xAxis: [{
+                type: 'category',
+                gridIndex: 0,
+                data: outputxData,
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#0c3b71'
+                    }
+                },
+                axisLabel: {
+                    show: true,
+                    color: '#fff',
+                    // fontSize:16
+                }
+            }],
+            yAxis: [{
+                    type: 'value',
+                    // name:"单位:户",
+                    nameTextStyle:{
+                    color:"rgb(170,170,170)"  
+                    },
+                    gridIndex: 0,
+                    splitLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    // min: min,
+                    // max: 100,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#0c3b71'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#fff',
+                        formatter: '{value}'
+                    }
+                },
+                {
+                    type: 'value',
+                    gridIndex: 0,
+                    // min: 0,
+                    // max: 100,
+                    splitNumber: 12,
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false
+                    },
+                    splitArea: {
+                        show: true,
+                        areaStyle: {
+                            color: ['rgba(250,250,250,0.0)', 'rgba(250,250,250,0.05)']
+                        }
+                    }
+                }
+            ],
+            series: [{
+                    name: '合格率',
+                    type: 'bar',
+                    barWidth: '30%',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: 30,
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#00feff'
+                                    },
+                                    {
+                                        offset: 0.5,
+                                        color: '#027eff'
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: '#0286ff'
+                                    }
+                                ]
+                            )
+                        }
+                    },
+                    data: outputyData,
+                    zlevel: 11
+
+                },
+                {
+                    name: '背景',
+                    type: 'bar',
+                    barWidth: '50%',
+                    xAxisIndex: 0,
+                    yAxisIndex: 1,
+                    barGap: '-135%',
+                    data: [100, 100, 100, 100, 100, 100, 100,100, 100, 100, 100, 100, 100, 100,100],
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(255,255,255,0.1)'
+                        }
+                    },
+                    zlevel: 9
+                },
+            
+            ]
+        };
+        fishGroundBarChart.setOption(fishGroundOption);
+        $(window).resize(fishGroundBarChart.resize);
+
+        // 设备在线监控
+        function deviceOnline(state){
+            $(".device_online_title").text('设备在线监控');
+            $("#jsi-flying-fish-container").addClass("tohide");
+            $("#device_online_chart").removeClass("tohide");
+            $("#device_online_chart").css({'width':'100%','height':'100%','margin-top':'4%'})//再给echarts元素设置宽高
+            let yibiaoChart = echarts.init(document.getElementById("device_online_chart"));
+            let yibiaoOption = {
+                // backgroundColor: new echarts.graphic.RadialGradient(0.5, 0.3, 0.2, [{
+                //     offset: 0,
+                //     color: '#f7f8fa'
+                // }, {
+                //     offset: 1,
+                //     color: '#cdd0d5'
+                // }]),
+                // title: {
+                //     text: '设备在线',
+                //     subtext: '作者',
+                //     left: 'center',
+                // },
+                tooltip: {
+                    show: true,
+                    trigger: 'item',
+                    formatter: "{a}:{b}"
+                },
+                series: [{
+                    type: "gauge",
+                    name:'当前设备',
+                    startAngle: 190,
+                    endAngle: -10,
+                    min: 0,
+                    max: 2,
+                    radius: "80%",
+                    center: ["50%", "65%"],
+                    axisLine: {
+
+                        show: true,
+                        lineStyle: {
+                            width: 100,
+                            shadowBlur: 10,
+                            color: [
+                                [0, '#B5495B'],
+                                [0.5, '#D0104C'],
+                                [1, '#20604F']
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    pointer: {
+                        width: "6%",
+                        length: '90%',
+                        color: "black"
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: "rgba(255, 255, 255, 0.5)",
+                            shadowBlur: 20
+                        }
+                    },
+
+                    title: {
+                        show: true,
+                        offsetCenter: [0, '-120%'],
+                        // textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            fontSize: 30,
+                            fontWeight: 'bolder',
+                            fontStyle: 'italic',
+                            color: 'auto'
+
+                        // }
+
+                    },
+                    detail: {
+                        show: false
+                    },
+                    data:[{value:1.5,name:'在线'}]
+
+
+                }]
+            };
+            if(state==0){
+                yibiaoOption.series[0].data[0].value=1.5;
+                yibiaoOption.series[0].data[0].name='在线';
+            }else{
+                yibiaoOption.series[0].data[0].value=0.5;
+                yibiaoOption.series[0].data[0].name='下线';
+            }
+            yibiaoChart.setOption(yibiaoOption);
+            $(window).resize(yibiaoChart.resize);
+        }
+        
+        // 鱼动画
+        function fishAnimation(){
+            $(".device_online_title").text('');
+            $("#device_online_chart").addClass("tohide");
+            $("#jsi-flying-fish-container").removeClass("tohide");
+        }
+
+        // 系统模型数量统计
+        function getSysModelNum(){
+            $(".ph_up_out").addClass("tohide");
+            $(".t_up_out").addClass("tohide");
+            $(".o2_up_out").addClass("tohide");
+            $(".model_num_title").text('模型数量统计');
+            $("#listedCompany").text('8');
+            $(".fa_title_1").text('水质因子动态变化模型');
+            $("#listedSecurity").text('7');
+            $(".fa_title_2").text('水质关键参数调控模型');
+            $("#totalMarket").text('9');
+            $(".fa_title_3").text('精准投料模型');
+            $(".fa_tr_4").removeClass('tohide');
+        }
+        // 设备阈值设置
+        function getFaZhiSet(id){
+            $.ajax({
+                url:'/fish/equipmentThreshold/ThresholdsByUser/'+id,
+                type:'post',
+                success:function(data){
+                    // console.log(data);
+                    $(".model_num_title").text('阈值设置');
+                    $(".fa_tr_4").addClass('tohide');
+                    $("#listedCompany").text('无');
+                    $(".fa_title_1").text('PH下限值');
+                    $("#listedSecurity").text('无');
+                    $(".fa_title_2").text('水温下限值');
+                    $("#totalMarket").text('无');
+                    $(".fa_title_3").text('溶氧下限值');
+                    $("#ph_up").text('无');
+                    $("#t_up").text('无');
+                    $("#o2_up").text('无');
+                    $(".ph_up_out").removeClass("tohide");
+                    $(".t_up_out").removeClass("tohide");
+                    $(".o2_up_out").removeClass("tohide");
+                    for(let i=0,j=data.length;i<j;i++){
+                        if(data[i].thresholdCode=='O2'){
+                            $("#totalMarket").text(data[i].lowerlimit+'mg/L');
+                            $("#o2_up").text(data[i].upperlimit+'mg/L');
+                        }else if(data[i].thresholdCode=='PH'){
+                            $("#listedCompany").text(data[i].lowerlimit);
+                            $("#ph_up").text(data[i].upperlimit);
+                        }else if(data[i].thresholdCode=='T'){
+                            $("#listedSecurity").text(data[i].lowerlimit+'°C');
+                            $("#t_up").text(data[i].upperlimit+'°C');
+                        }
+                    }
+                }
+            })
+        }
+        
+        // 获取最近7天时间
+        function get7Day(){
+            var oneDay=24*60*60*1000;
+            var Date7 = new Date()
+            var Date6 = new Date(Date7.getTime() - oneDay).Format('MM-dd'); //前一天
+            var Date5 = new Date(Date7.getTime() -(2*oneDay)).Format('MM-dd'); //后一天
+            var Date4 = new Date(Date7.getTime() -(3*oneDay)).Format('MM-dd'); //后一天
+            var Date3 = new Date(Date7.getTime() -(4*oneDay)).Format('MM-dd'); //后一天
+            var Date2 = new Date(Date7.getTime() -(5*oneDay)).Format('MM-dd'); //后一天
+            var Date1 = new Date(Date7.getTime() -(6*oneDay)).Format('MM-dd'); //后一天
+            Date7 = new Date().Format('MM-dd');
+            var arr=[Date1,Date2,Date3,Date4,Date5,Date6,Date7];
+            return arr;
+        }
+        // 获取该设备的告警次数统计
+        function getAlernNum(e){
+            $.ajax({
+                url: "../fish/api/bigScreen/statisAlarm/"+e,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    // str={'9-14':'h'}
+                    if(data.length==0){
+                        lineoption.series[0].data=[0,0,0,0,0,0,0];
+                        lineoption.xAxis[0].data=get7Day();
+                        lineChart.setOption(lineoption);
+                        $(window).resize(lineChart.resize);
+                    }else{
+                        // var map = new Map();
+                        // for(obj in data){
+                        //     map.set(obj,data[obj]);
+                        // }
+                        lineoption.xAxis[0].data=get7Day();
+                        lineoption.series[0].data=[0,0,0,0,0,0,0];
+                        for(let i=0,j=lineoption.xAxis[0].data.length;i<j;i++){
+                            // if(data[lineoption.xAxis[i]])
+                            for(let k=0,l=data.length;k<l;k++){
+                                if(data[k].statisTime==lineoption.xAxis[0].data[i]){
+                                    lineoption.series[0].data[i]=data[k].total;
+                                    continue;
+                                }
+                            }
+                        }
+                        lineChart.setOption(lineoption);
+                        $(window).resize(lineChart.resize);
+                    }
+                    
+                }
+            })
+        
+        }
+        // 获取机构总概况信息
+        function getAllBasicMsg(){
+            $(".basic_title").text('机构总概况');
+            $(".basic_1_up").text('机构');
+            $(".basic_1_down").text('3');
+            $(".basic_2_up").text('基地');
+            $(".basic_2_down").text('4');
+            $(".basic_3_up").text('塘口');
+            $(".basic_3_down").text('21');
+            $(".basic_4_up").text('总面积');
+            $(".basic_4_down").text('35537m²');
+            $(".basic_5_up").text('养殖品种');
+            $(".basic_5_down").text('5');
+            $(".basic_6_up").text('总产量');
+            $(".basic_6_down").text('278吨');
+        }
+
+        // 获取养殖单元总信息
+        function getBasicMsg(e){
+            // console.log(dData)
+            $.ajax({
+                url:'/fish/fishBreedingunit/selectBreedingAndBatch/'+e,
+                type:'post',
+                async:false,
+                success:function(data){
+                    if(data){
+                        $(".basic_2_down").text(data.breedBatch.fishVarieties.name)
+                        deviceOnline(data.equipment.state);
+                    }else{
+                        $(".basic_2_down").text('-');
+                        deviceOnline(1);
+                    }
+                // if(data.breedBatch.sampling.averageWeight){
+                //     $(".td_weight").text(data.breedBatch.sampling.averageWeight+' g')
+                // }
+                // if(data.equipment.state-0==0){
+                //     $(".is_online").text('在线');
+                // }else{
+                //     $(".is_online").text('下线');
+                // }
+                }
+            })
+            for(let i=0,j=dData.length;i<j;i++){
+                if(e==dData[i].breedingunitId){
+                    $(".basic_title").text(dData[i].fishBreedingunit.breedingName+'总概况');
+                    $(".basic_1_up").text('基地');
+                    $(".basic_1_down").text('大亚湾基地');
+                    $(".basic_2_up").text('品种');
+                    // $(".basic_2_down").text(dData[i].fishBreedingunit.breedingName);
+                    $(".basic_3_up").text('责任人');
+                    if(dData[i].fishBreedingunit.charge){
+                        $(".basic_3_down").text(dData[i].fishBreedingunit.charge);
+                    }else{
+                        $(".basic_3_down").text('-');
+                    }
+                    $(".basic_4_up").text('面积');
+                    if(dData[i].fishBreedingunit.area){
+                        $(".basic_4_down").text(dData[i].fishBreedingunit.area+'m²');
+                    }else{
+                        $(".basic_4_down").text('-');
+                    }
+                    // $(".basic_4_down").text(dData[i].fishBreedingunit.area+'m²');
+                    $(".basic_5_up").text('数量');
+                    if(dData[i].fishBreedingunit.number){
+                        $(".basic_5_down").text(dData[i].fishBreedingunit.number);
+                    }else{
+                        $(".basic_5_down").text('-');
+                    }
+                    // $(".basic_5_down").text(dData[i].fishBreedingunit.number);
+                    $(".basic_6_up").text('水深');
+                    if(dData[i].fishBreedingunit.waterDepth){
+                        $(".basic_6_down").text(dData[i].fishBreedingunit.waterDepth+'米');
+                    }else{
+                        $(".basic_6_down").text('-');
+                    }
+                    // $(".basic_6_down").text(dData[i].fishBreedingunit.waterDepth+'米');
+                }
+            }
+        
+        }
+        
+        // 矩形树状图
+        var treeMapChart = echarts.init(document.getElementById("tree_map_base"));
+        var treeMapOption = {
+            // color: [
+            //     "#19d4ae",
+            //     "#5ab1ef",
+            //     "#fa6e86",
+            //     "#ffb980",
+            //     "#0067a6",
+            //     "#c4b4e4",
+            //     "#d87a80",
+            //     "#9cbbff",
+            //     "#d9d0c7",
+            //     "#87a997",
+            //     "#d49ea2",
+            //     "#5b4947",
+            //     "#7ba3a8"
+            // ],  // 全局颜色盘
+            color:[
+                '#EB6F49',
+                '#00D98B',
+                '#FDB628',
+                '#0091F1',
+                '#00E4EC',
+                '#8256E8',
+                '#5171FA',
+                '#4DF2FC',
+                '#EF5F5F'
+            ],
+            // title: {
+            //     x: '25%',
+            //     text: '矩形树图练习',
+            //     subtext: '矩形树图练习子标题'
+            // },
+            tooltip: {
+                trigger: 'item'
             },
             series: [{
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                type: 'line'
+                name: '智慧渔业大数据',
+                type: 'treemap',
+                leafDepth: 1,
+                label: {
+                    show: true,
+                    formatter: '{b}'
+                },
+                upperLabel: {
+                    show: true,
+                    height: 30
+                },
+                levels: [{
+                    itemStyle: {
+                        normal: {
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            gapWidth: 1
+                        }
+                    },
+                    upperLabel: {
+                        normal: {
+                            show: false
+                        }
+                    }
+                }, {
+                itemStyle: {
+                    normal: {
+                        borderColor: '#555',
+                        borderWidth: 5,
+                        gapWidth: 1
+                    },
+                    emphasis: {
+                        borderColor: '#888'
+                    }
+                } 
+                }, {
+                    colorSaturation: [0.35, 0.5],
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 5,
+                            gapWidth: 1,
+                            borderColorSaturation: 0.6
+                        }
+                    }
+                }],
+                data: []
             }]
+        
         };
-        testEcharts.setOption(testOption);
-        $(window).resize(testEcharts.resize);
+        treeMapChart.setOption(treeMapOption);
+        $(window).resize(treeMapChart.resize);
+
+        // 展示养殖单元相关图表
+        // 出放水记录
+        function outInWater(){
+            // $("#out_in_water_chart").css({'width':$(".out_in_water_parent").width(),'height':$(".out_in_water_parent").height()})
+            $("#out_in_water_chart").css({'width':'100%','height':'100%','margin-top':'4%'})
+            var colorArray = [
+                {
+                    top: '#ffa800', //黄
+                    bottom: 'rgba(11,42,84,.3)'
+                }, {
+                    top: '#1ace4a', //绿
+                    bottom: 'rgba(11,42,84, 0.3)'
+                },
+                {
+                    top: '#4bf3ff', //蓝
+                    bottom: 'rgba(11,42,84,.3)'
+                }, {
+                    top: '#4f9aff', //深蓝
+                    bottom: 'rgba(11,42,84,.3)'
+                },
+                {
+                    top: '#b250ff', //粉
+                    bottom: 'rgba(11,42,84,.3)'
+                },
+                {
+                    top: '#f00', //红
+                    bottom: 'rgba(11,42,84,.3)'
+                },
+                {
+                    top: 'orange', //红
+                    bottom: 'rgba(11,42,84,.3)'
+                }
+            ];
+            var henBarChart = echarts.init(document.getElementById("out_in_water_chart"));
+            var henBarOption = {
+                // backgroundColor: '#0E2A43',
+                tooltip: {
+                    show: true,
+                    formatter: "{a}:{c}"
+                    },
+                grid: {
+                    left: '5%',
+                    top: '12%',
+                    right: '1%',
+                    bottom: '8%',
+                    containLabel: true
+                    },
+            
+                xAxis: {
+                    type: 'value',
+                    show:false,
+                    position: 'top',
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#fff',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                },
+                yAxis: [{
+                        type: 'category',
+                        axisTick: {
+                            show: false,
+                            alignWithLabel: false,
+                            length: 5,
+
+                        },
+                        "splitLine": { //网格线
+                            "show": false
+                        },
+                        inverse: 'true', //排序
+                        axisLine: {
+                            show: false,
+                            lineStyle: {
+                                color: '#fff',
+                            }
+                        },
+                        data: ['周一', '周二', '周三', '周四', '周五','周六','周日']
+                    }
+
+                ],
+                series: [{
+                        name: '进水',
+                        formatter: '{a}',
+                        type: 'bar',
+                            label: {
+                            normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{c}',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                show: true,
+                                color: function(params) {
+                                    let num = colorArray.length;
+                                    return {
+                                        type: 'linear',
+                                        colorStops: [{
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }],
+                                        //globalCoord: false
+                                    }
+                                },
+                                barBorderRadius: 70,
+                                borderWidth: 0,
+                                borderColor: '#333',
+                            }
+                        },
+                        barGap: '0%',
+                        barCategoryGap: '50%',
+                        data: [60, 132, 89, 134, 60,100,95]
+                    },
+                    {
+                        name: '排水',
+                        formatter: '{a}',
+                        type: 'bar',
+                            label: {
+                            normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{c}',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                show: true,
+                                color: function(params) {
+                                    let num = colorArray.length;
+                                    return {
+                                        type: 'linear',
+                                        colorStops: [{
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }, {
+                                            offset: 0,
+                                            color: colorArray[params.dataIndex % num].bottom
+                                        }, {
+                                            offset: 1,
+                                            color: colorArray[params.dataIndex % num].top
+                                        }],
+                                        //globalCoord: false
+                                    }
+                                },
+                                barBorderRadius: 70,
+                                borderWidth: 0,
+                                borderColor: '#333',
+                            }
+                        },
+                        barGap: '0%',
+                        barCategoryGap: '50%',
+                        data: [50, 125, 80, 139, 70,93,99]
+                    }
+
+                ]
+            };
+            henBarChart.setOption(henBarOption);
+            $(window).resize(henBarChart.resize);
+        }
+        
+        var mData=[];
+        var dData=[];
+        // 矩形树状图点击事件
+        treeMapChart.on('click',function(params){
+            // layer.msg(params.data);
+            // console.log(params);
+            if(params.data && params.treePathInfo.length==2){
+                // console.log(params.dataIndex);
+                // console.log(params)
+                    // console.log(params.data.id)
+                // clearInterval(toQueryDeviceData);
+                $(".model_num_statistic_outer").addClass('tohide')
+                $(".out_in_water_outer").removeClass('tohide')
+                outInWater();
+
+                clearInterval(toIdQueryDeviceData)
+                queryIdDeviceData(params.data.id);
+                getBasicMsg(params.data.id);
+                getAlernNum(params.data.id);
+            }else if(params.nodeData && params.treePathInfo.length==2){
+                // console.log(params.nodeData.dataIndex=='2');
+                // console.log(params.nodeData.name);
+                for(let i=0,j=mData.length;i<j;i++){
+                    if(mData[i].name==params.nodeData.name){
+                        // console.log(mData[i].id)
+                        clearInterval(toIdQueryDeviceData)
+                        queryIdDeviceData(mData[i].id);
+                        getBasicMsg(mData[i].id);
+                        getAlernNum(mData[i].id);
+                    }
+                }
+                $(".model_num_statistic_outer").addClass('tohide')
+                $(".out_in_water_outer").removeClass('tohide')
+                outInWater();
+            }else{
+                $(".model_num_statistic_outer").removeClass('tohide')
+                $(".out_in_water_outer").addClass('tohide');
+
+                clearInterval(toIdQueryDeviceData)
+                queryIdDeviceData(unitId);
+                getAlernNum(unitId);
+                getAllBasicMsg();
+            }
+            
+        });
+
+        function listToTree(myId,pId,list){
+            function exists(list, parentId){
+                for(var i=0; i<list.length; i++){
+                    if (list[i][myId] == parentId) return true;
+                }
+                return false;
+            }
+            var nodes = [];
+            // get the top level nodes
+            for(var i=0; i<list.length; i++){
+                var row = list[i];
+                if (!exists(list, row[pId])){
+                    nodes.push(row);
+                }
+            }
+            
+            var toDo = [];
+            for(var i=0; i<nodes.length; i++){
+                toDo.push(nodes[i]);
+            }
+            while(toDo.length){
+                var node = toDo.shift();    // the parent node
+                // get the children nodes
+                for(var i=0; i<list.length; i++){
+                    var row = list[i];
+                    if (row[pId] == node[myId]){
+                        //var child = {id:row.id,text:row.name};
+                        if (node.children){
+                            node.children.push(row);
+                        } else {
+                            node.children = [row];
+                        }
+                        toDo.push(row);
+                    }
+                }
+            }
+            return nodes;
+        }
+
+
+        var unitId='4134ad0b-081c-476b-af00-53301b3c5e47';//养殖单元id
+
+        // 获取矩形树状图数据
+        function getTreeMapData(){
+            // 获取树状图
+            // $.ajax({
+            //     url: "../system/org/treeData",
+            //     type: "get",
+            //     success: function (data) {
+            //         mData=[];
+            //         for(let i=0;i<data.length;i++){
+            //             mData.push({'id':data[i].id,'pId':data[i].pId,'name':data[i].name,'value':10})
+            //         }
+            //         var dData=listToTree('id','pId',mData);
+            //         treeMapOption.series[0].data=dData[0].children;
+            //         treeMapOption.series[0].name=dData[0].name;
+            //         // mData=dData;
+            //         treeMapChart.setOption(treeMapOption);
+            //         $(window).resize(treeMapChart.resize);
+            //         // console.log(mData)
+            //     }
+            // })
+
+            // 现在修改为直接拿该用户下的所有养殖单元数据
+            $.ajax({
+                url: "../fish/api/bigScreen",
+                type: "get",
+                success: function (data) {
+                    // console.log(data)
+                    unitId=data[0].fishBreedingunit.id;
+                    dData=data;
+                    for(let i=0,j=data.length;i<j;i++){
+                        mData.push({'id':data[i].fishBreedingunit.id,'name':data[i].fishBreedingunit.breedingName,'value':data[i].fishBreedingunit.area})
+                    }
+                    treeMapOption.series[0].data=mData;
+                    treeMapChart.setOption(treeMapOption);
+                    $(window).resize(treeMapChart.resize);
+
+                    // clearInterval(toIdQueryDeviceData)
+                    queryIdDeviceData(mData[0].id);
+                    getAlernNum(mData[0].id);
+                }
+            })
+        
+        }
+        
+
+
+        // 折线图
+        var lineChart = echarts.init(document.getElementById("echarts-line-chart"));
+        var lineoption = {
+            // title : {
+            //     text: '未来一周气温变化'
+            // },
+            // backgroundColor: '#f5fafe',
+            backgroundColor: 'rgba(0,0,0,0)',
+            tooltip : {
+                trigger: 'axis'
+            },
+            grid: {
+                top:'15%',
+                left: '5%',
+                right: '8%',
+                bottom: '5%',
+                containLabel: true
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['9月4日','9月5日','9月6日','9月7日','9月8日','9月9日','9月10日'],   
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',  //更改坐标轴文字颜色
+                        }
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    axisLabel : {
+                        formatter: '{value}'
+                    },   
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',  //更改坐标轴文字颜色
+                        }
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'告警次数',
+                    type:'line',
+                    data:[101, 113, 157, 135, 88, 93, 79],
+                    // itemStyle: {normal: {areaStyle: {type: 'default'}}}
+                    // areaStyle: {type: 'default'}
+                    itemStyle: {  
+                        normal: {   //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{
+                                    offset: 0, color: '#72a59c' // 0% 处的颜色
+                                }, {
+                                    offset: 0.5, color: '#4c6e6886' // 100% 处的颜色
+                                }, {
+                                    offset: 1, color: 'rgba(0,0,0,0)' // 100% 处的颜色
+                                }]
+                            ),  //背景渐变色 
+                            lineStyle: {        // 系列级个性化折线样式  
+                                width: 3,  
+                                type: 'solid',  
+                                color: "#4fd6d2"
+                            }
+                        }
+                    },
+                    symbolSize:5, //折线点的大小
+                    areaStyle: {normal: {}},
+                }
+            ]     
+        };
+        lineChart.setOption(lineoption);
+        $(window).resize(lineChart.resize);
+        
+        
+        
+        // 选择设备监控日、周、月按钮
+        function selectWater(e,f){
+            $(".out_water_tab").removeClass("blue_active");
+            e.addClass("blue_active");
+            if(f=='日'){
+                baroption.series=[{
+                    name:'正常设备',
+                    type:'bar',
+                    data:[ 15, 13,18,17]
+                },
+                {
+                    name:'异常设备',
+                    type:'bar',
+                    data:[0, 0,1,0]
+                }];
+                barChart.setOption(baroption);
+                $(window).resize(barChart.resize);
+            }else if(f=='周'){
+                baroption.series=[{
+                    name:'正常设备',
+                    type:'bar',
+                    data:[ 45, 40,42,50]
+                },
+                {
+                    name:'异常设备',
+                    type:'bar',
+                    data:[1, 2,3,0]
+                }];
+                barChart.setOption(baroption);
+                $(window).resize(barChart.resize);
+            }else if(f=='月'){
+                baroption.series=[{
+                    name:'进水量',
+                    type:'bar',
+                    data:[ 95, 107,88,70]
+                },
+                {
+                    name:'出水量',
+                    type:'bar',
+                    data:[1,3,5,0]
+                }];
+                barChart.setOption(baroption);
+                $(window).resize(barChart.resize);
+            }
+        }
+        
+        // 柱状图
+        var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
+        var baroption = {
+            // title : {
+            //     text: '某地区蒸发量和降水量'
+            // },
+            // color: ['#fe3a32', '#eac504', '#4cabce', '#e5323e'],
+            color: [ '#4cabce', '#e5323e'],
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['正常设备','异常设备'],
+                textStyle: {
+                    color: '#fff',  //更改坐标轴文字颜色
+                }
+            },
+            grid:{
+                x:30,
+                x2:40,
+                y2:40
+            },
+            // grid:{
+            // 	left: '4%',   // 与容器左侧的距离
+            // 	right: '4%', // 与容器右侧的距离
+            // 	containLabel: true
+            // },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ['PH传感器','溶氧值传感器','水温传感器','摄像头'],
+                    color:'#fff',   
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',  //更改坐标轴文字颜色
+                        }
+                    },
+                }
+            ],
+            yAxis : [
+                {
+                    name:'单位: 个',
+                    nameTextStyle:{
+                        color:'#ffffff'
+                    },
+                    type : 'value',
+                    color:'#fff',   
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',  //更改坐标轴文字颜色
+                        }
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'正常设备',
+                    type:'bar',
+                    data:[ 95, 107,88,70]
+                },
+                {
+                    name:'异常设备',
+                    type:'bar',
+                    data:[1, 3,5,0]
+                }
+            ]
+        };
+        barChart.setOption(baroption);
+        $(window).resize(barChart.resize);
+        
+        // 水球图
+        var wballChart1=echarts.init(document.getElementById("water-ball-chart1"));
+        var balloption1={
+            backgroundColor:'rgba(0,0,0,0)',
+            graphic: [{
+                type: 'group',
+                left: 'center',
+                bottom: 1,
+                children: [{
+                    type: 'text',
+                    z: 100,
+                    left: '50',
+                    top: 'middle',
+                    style: {
+                        fill: '#fff',
+                        text: 'PH值',
+                        font: '15px open sans'
+                    }
+                }]
+            }],
+            series: [{
+                type: 'liquidFill',
+                //data: [0.6, 0.5, 0.4, 0.3],
+                // data: [0.3, 0.2, 0.1, 0.05],
+                data: [0.52, 0.3, 0.2, 0.08],
+                radius: '70%',
+                // 水球颜色
+                color: ['#FE5555', '#F07581', '#FB5E61'],
+                center: ['50%', '45%'],
+                // outline  外边
+                outline: {
+                    // show: false
+                    borderDistance: 5,
+                    itemStyle: {
+                        borderWidth: 5,
+                        borderColor: '#FE5555',
+                    },
+                },
+                label: {
+                    normal: {
+                        // textStyle: {
+                            formatter: '7.6',
+                            // color: 'red',
+                            // insideColor: 'yellow',
+                            color: 'lightblue',
+                            insideColor: 'white',
+                            fontSize: 15
+                        // }
+                    }
+                },
+                // 内图 背景色 边
+                backgroundStyle: {
+                    color: 'rgba(4,24,74,0.8)',
+                    // borderWidth: 5,
+                    // borderColor: 'red',
+                }
+            }]
+        
+        };
+        wballChart1.setOption(balloption1);
+        $(window).resize(wballChart1.resize);
+
+        var wballChart2=echarts.init(document.getElementById("water-ball-chart2"));
+        var balloption2={
+            backgroundColor:'rgba(0,0,0,0)',
+            graphic: [{
+                type: 'group',
+                left: 'center',
+                bottom: 1,
+                children: [{
+                    type: 'text',
+                    z: 100,
+                    left: '50',
+                    top: 'middle',
+                    style: {
+                        fill: '#fff',
+                        text: '温度',
+                        font: '15px open sans'
+                    }
+                }]
+            }],
+            series: [{
+                type: 'liquidFill',
+                //data: [0.6, 0.5, 0.4, 0.3],
+                data: [0.6, 0.5, 0.4, 0.3],
+                radius: '70%',
+                // 水球颜色
+                color: ['#49d088', '#38b470', '#2aaf66'],
+                center: ['50%', '45%'],
+                // outline  外边
+                outline: {
+                    // show: false
+                    borderDistance: 5,
+                    itemStyle: {
+                        borderWidth: 5,
+                        borderColor: '#13FDCE',
+                    },
+                },
+                label: {
+                    normal: {
+                        // textStyle: {
+                            formatter: 36 + '°C',
+                            // color: 'red',
+                            // insideColor: 'yellow',
+                            color: 'lightblue',
+                            insideColor: 'white',
+                            fontSize: 15
+                        // }
+                    }
+                },
+                // 内图 背景色 边
+                backgroundStyle: {
+                    color: 'rgba(4,24,74,0.8)',
+                    // color: 'rgba(0,0,0,0)',
+                    // borderWidth: 5,
+                    // borderColor: 'red',
+                }
+            }]
+        
+        };
+        wballChart2.setOption(balloption2);
+        $(window).resize(wballChart2.resize);
+
+        var wballChart3=echarts.init(document.getElementById("water-ball-chart3"));
+        var balloption3={
+            backgroundColor:'rgba(0,0,0,0)',
+            graphic: [{
+                type: 'group',
+                left: 'center',
+                bottom: 1,
+                children: [{
+                    type: 'text',
+                    z: 100,
+                    left: '50',
+                    top: 'middle',
+                    style: {
+                        fill: '#fff',
+                        text: '溶氧值',
+                        font: '15px open sans'
+                    }
+                }]
+            }],
+            series: [{
+                type: 'liquidFill',
+                //data: [0.6, 0.5, 0.4, 0.3],
+                data: [0.2, 0.05,0.25],
+                radius: '70%',
+                // 水球颜色
+                color: ['#FFBF11', '#F4B30E', '#EACE36'],
+                center: ['50%', '45%'],
+                // outline  外边
+                outline: {
+                    // show: false
+                    borderDistance: 5,
+                    itemStyle: {
+                        borderWidth: 5,
+                        borderColor: '#FFBF11',
+                    },
+                },
+                label: {
+                    normal: {
+                        // textStyle: {
+                            formatter: 7.36 + 'mg/L',
+                            color: 'lightblue',
+                            insideColor: 'white',
+                            fontSize: 15
+                        // }
+                    }
+                },
+                // 内图 背景色 边
+                backgroundStyle: {
+                    color: 'rgba(4,24,74,0.8)',
+                    // borderWidth: 5,
+                    // borderColor: 'red',
+                }
+            }]
+        
+        };
+        wballChart3.setOption(balloption3);
+        $(window).resize(wballChart3.resize);
+
+
+        var isFullScreen=false;
+        // 全屏显示
+        function requestFullScreen() {    
+            var de = document.documentElement;
+            if (de.requestFullscreen) {
+                de.requestFullscreen();
+            } else if (de.mozRequestFullScreen) {
+                de.mozRequestFullScreen();
+            } else if (de.webkitRequestFullScreen) {
+                de.webkitRequestFullScreen();
+            }
+            isFullScreen=true;
+        }   
+        // 退出全屏显示
+        function exitFullscreen() {
+            var de = document;
+            if (de.exitFullscreen) {
+                de.exitFullscreen();
+            } else if (de.mozCancelFullScreen) {
+                de.mozCancelFullScreen();
+            } else if (de.webkitCancelFullScreen) {
+                de.webkitCancelFullScreen();
+            }
+            isFullScreen=false;
+        }
+
+        // 双击全屏或退出全屏
+        $("#big_content").dblclick(function(){
+            // if(isFullScreen){
+            //     exitFullscreen();
+            // }else{
+            //     requestFullScreen();
+            // }
+            
+        })
+
+        // 获取养殖单元图片
+        function getBreedPic(){
+            
+            var radius = 240; 
+            var autoRotate = true; 
+            var rotateSpeed = -60; 
+            var outWidth=$(".no-bg").width()*0.185;
+            var outHeight=outWidth;
+            // var outHeight=$(".no-bg").height()*0.37;
+            // console.log('测试宽度',outWidth)
+            // var imgWidth = 120;
+            // var imgHeight = 170;
+            var imgWidth = outWidth;
+            var imgHeight = outHeight;
+
+            $.ajax({
+                url: "../fish/api/bigScreen",
+                type: "get",
+                async:false,
+                success: function (data) {
+                    unitId=data[0].fishBreedingunit.id;
+                    dData=data;
+                    for(let i=0,j=data.length;i<j;i++){
+                        mData.push({'id':data[i].fishBreedingunit.id,'name':data[i].fishBreedingunit.breedingName,'value':data[i].fishBreedingunit.area});
+                        $("#spin-container").append(`
+                        <div class='swiper_contain'>
+                            <img class='swiper_breed_pic' name='${data[i].fishBreedingunit.id}' src='../img/icon-0${i+1}.png'>
+                            <span>${data[i].fishBreedingunit.breedingName}</span>
+                        </div>
+                        `)
+                        $("div[class=swiper_contain]:last").css('background','url(../img/swiper_bg.png?auto=compress&cs=tinysrgb&dpr=1&w=500) 0 0/cover no-repeat');
+                    }
+
+                    // clearInterval(toIdQueryDeviceData)
+                    queryIdDeviceData(mData[0].id);
+                    getAlernNum(mData[0].id);
+                    getFaZhiSet(mData[0].id);
+                }
+            })
+        
+            
+            // for(let i=0,j=3;i<j;i++){
+            //     $("#spin-container").append(`
+            //     <div class='swiper_contain'>
+            //         <img class='swiper_breed_pic' src='../img/icon-0${i+1}.png'>
+            //         <span>养殖单元${i}</span>
+            //     </div>
+            //     `)
+            //     $("div[class=swiper_contain]:last").css('background','url(../img/swiper_bg.png?auto=compress&cs=tinysrgb&dpr=1&w=500) 0 0/cover no-repeat');
+            // }
+            $(".swiper_contain").css('line-height',$(".no-bg").width()*0.42+'px');
+
+            setTimeout(init, 100);
+
+            var obox = document.getElementById('drag-container');
+            var ospin = document.getElementById('spin-container');
+            // var aImg = ospin.getElementsByTagName('img');
+            var aImg = ospin.querySelectorAll('.swiper_contain');
+            var aVid = ospin.getElementsByTagName('video');
+            var aEle = [...aImg, ...aVid]; 
+
+            //点击暂停轮播
+            // function testClick(){
+            //     if(autoRotate){
+            //         console.log(1233)
+            //         playSpin(false);
+            //         autoRotate=false;
+            //     }else{
+            //         console.log(456);
+            //         playSpin(true);
+            //         autoRotate=true;
+            //     }
+            // }
+            ospin.style.width = imgWidth + "px";
+            ospin.style.height = imgHeight + "px";
+            var ground = document.getElementById('ground');
+            ground.style.width = radius * 3 + "px";
+            ground.style.height = radius * 3 + "px";
+
+            function init(delayTime) {
+            for (var i = 0; i < aEle.length; i++) {
+                aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
+                aEle[i].style.transition = "transform 1s";
+                aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
+            }
+            }
+            function applyTranform(obj) {
+            if(tY > 180) tY = 180;
+            if(tY < 0) tY = 0;
+            obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
+            }
+
+            function playSpin(yes) {
+            ospin.style.animationPlayState = (yes?'running':'paused');
+            }
+
+            var sX, sY, nX, nY, desX = 0,
+                desY = 0,
+                tX = 0,
+                tY = 10;
+            if (autoRotate) {
+                var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
+                ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
+                }
+                if (mobilecheck()) {
+                    document.querySelector(".no-bg").ontouchstart = function(e) {
+                        clearInterval(obox.timer);
+                        e = e || window.event;
+                        var sX = e.touches[0].clientX,
+                            sY = e.touches[0].clientY;
+
+                        this.ontouchmove = function(e) {
+                            e = e || window.event;
+                            var nX = e.touches[0].clientX,
+                                nY = e.touches[0].clientY;
+                            desX = nX - sX;
+                            desY = nY - sY;
+                            tX += desX * 0.1;
+                            tY += desY * 0.1;
+                            applyTranform(obox);
+                            sX = nX;
+                            sY = nY;
+                        }
+
+                        this.ontouchend = function(e) {
+                            this.ontouchmove = this.ontouchend = null;
+                            obox.timer = setInterval(function() {
+                                desX *= 0.95;
+                                desY *= 0.95;
+                                tX += desX * 0.1;
+                                tY += desY * 0.1;
+                                applyTranform(obox);
+                                playSpin(false);
+                                if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+                                clearInterval(obox.timer);
+                                playSpin(true);
+                                }
+                            }, 17);
+                        }
+                    }
+                } else {
+                document.querySelector(".no-bg").onmousedown = function(e) {
+                    clearInterval(obox.timer);
+                    e = e || window.event;
+                    var sX = e.clientX,
+                        sY = e.clientY;
+
+                    this.onmousemove = function(e) {
+                        e = e || window.event;
+                        var nX = e.clientX,
+                            nY = e.clientY;
+                        desX = nX - sX;
+                        desY = nY - sY;
+                        tX += desX * 0.1;
+                        tY += desY * 0.1;
+                        applyTranform(obox);
+                        sX = nX;
+                        sY = nY;
+                    }
+
+                    this.onmouseup = function(e) {
+                        this.onmousemove = this.onmouseup = null;
+                        obox.timer = setInterval(function() {
+                            desX *= 0.95;
+                            desY *= 0.95;
+                            tX += desX * 0.1;
+                            tY += desY * 0.1;
+                            applyTranform(obox);
+                            playSpin(false);
+                            if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+                                clearInterval(obox.timer);
+                                playSpin(true);
+                            }
+                        }, 13);
+                    }
+
+                    return false;
+                }
+                document.onmousewheel = function(e) {
+                    e = e || window.event;
+                    var d = e.wheelDelta / 20 || -e.detail;
+                    radius += d;
+                    init(1);
+                };
+            }
+
+            function mobilecheck() {
+            var check = false;
+            (function(a) { if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true; })(navigator.userAgent || navigator.vendor || window.opera);
+            return check;
+            }
+
+            $(".swiper_contain").mouseenter(function(){
+                playSpin(false);
+                $(this).width($(this).width()+8+'px');
+                $(this).height($(this).height()+8+'px');
+            });
+            $(".swiper_contain").mouseleave(function(){
+                playSpin(true);
+                $(this).width($(this).width()-8+'px');
+                $(this).height($(this).height()-8+'px');
+            })
+            $(".swiper_contain").click(function(event){
+                event.stopPropagation();
+                $(".swiper_contain").removeClass("swiper_active");
+                $(this).addClass("swiper_active");
+
+                let theBreedId=$(this).find('img').attr('name');
+
+                // $(".model_num_statistic_outer").addClass('tohide')
+                // $(".out_in_water_outer").removeClass('tohide')
+                // outInWater();
+
+                clearInterval(toIdQueryDeviceData)
+                queryIdDeviceData(theBreedId);
+                getBasicMsg(theBreedId);
+                getAlernNum(theBreedId);
+                getFaZhiSet(theBreedId);
+                // deviceOnline();
+            })
+
+            // 右键返回总概括页面展示
+            $(document).unbind('mousedown').bind("mousedown",function(e){
+                if(3 == e.which){
+                    // $(".swiper_contain").removeClass("swiper_active");
+                    // $(".model_num_statistic_outer").removeClass('tohide')
+                    // $(".out_in_water_outer").addClass('tohide');
+                    // clearInterval(toIdQueryDeviceData)
+                    // queryIdDeviceData(unitId);
+                    // getAlernNum(unitId);
+                    // getAllBasicMsg();
+                    // getFaZhiSet(unitId);
+                    // // getSysModelNum();
+                    // fishAnimation();
+                }
+            })
+        }
+
+        // 水球图每两分钟获取一次
+        $(document).ready(function(){
+            // var elem=document.getElementById("big_content");
+            // requestFullScreen()
+            $(document).unbind("contextmenu").bind("contextmenu",function(e){
+                // return false;//禁用右键菜单
+            });
+            // queryDeviceData();
+            // getTreeMapData();
+            // testclick();
+            // getBreedPic();
+            getNowDateTime();//获取时间
+            //getNowWeather();//获取天气
+            fixedTableThead();//固定表头
+            // getUserNameLogo();//获取用户名称和logo
+        })
+        // function testclick(){
+        //     setTimeout(() => {
+        //         testclick();
+        //     }, 1000);
+        //     console.log(123)
+        // }
+
+        // 查找对应养殖单元的检测数据
+        var toIdQueryDeviceData;
+        function queryIdDeviceData(e){
+            toIdQueryDeviceData= setTimeout(() => {
+                queryIdDeviceData(e);
+            }, 120000);
+            $.ajax({
+                url: "../fish/api/bigScreen/lastDeviceRecord/"+e,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    // console.log(data)
+                    balloption1.series[0].label.normal.formatter=String(data.ph.toFixed(2));
+                    balloption1.series[0].data[0]=data.ph/14;
+                    wballChart1.setOption(balloption1);
+                    $(window).resize(wballChart1.resize);
+
+                    balloption3.series[0].label.normal.formatter=String(data.o2.toFixed(2))+'mg/L';
+                    balloption3.series[0].data[0]=data.o2/30;
+                    wballChart3.setOption(balloption3);
+                    $(window).resize(wballChart3.resize);
+
+                    balloption2.series[0].label.normal.formatter=String(data.waterT.toFixed(2))+'°C';
+                    balloption2.series[0].data[0]=data.waterT/70;
+                    wballChart2.setOption(balloption2);
+                    $(window).resize(wballChart2.resize);
+                }
+            })
+        
+        }
+        // var toQueryDeviceData;
+        function queryDeviceData(){
+            // toQueryDeviceData= setTimeout(() => {
+            //     queryDeviceData();
+            // }, 120000);
+            $.ajax({
+                url: "../fish/fishBaseController/qury",
+                type: "post",
+                dataType: "json",
+                data: {data:"select last_row(*) from fish.dyw_fish where device='CKAG0328'"},
+                success: function (data) {
+                    console.log(data)
+                    var model_data=data.data;
+                    balloption1.series[0].label.normal.formatter=String(model_data[0][2].toFixed(2));
+                    balloption1.series[0].data[0]=model_data[0][2]/14;
+                    wballChart1.setOption(balloption1);
+                    $(window).resize(wballChart1.resize);
+
+                    balloption3.series[0].label.normal.formatter=String(model_data[0][1].toFixed(2))+'mg/L';
+                    balloption3.series[0].data[0]=model_data[0][1]/30;
+                    wballChart3.setOption(balloption3);
+                    $(window).resize(wballChart3.resize);
+
+                    balloption2.series[0].label.normal.formatter=String(model_data[0][3].toFixed(2))+'°C';
+                    balloption2.series[0].data[0]=model_data[0][3]/70;
+                    wballChart2.setOption(balloption2);
+                    $(window).resize(wballChart2.resize);
+                }
+            })
+        
+        }
+        
+        
+        // 投放记录环形图
+        var placeHolderStyle = {
+            normal: {
+                label: {
+                    show: false
+                },
+                labelLine: {
+                    show: false
+                },
+                color: "rgba(0,0,0,0)",
+                borderWidth: 0
+            },
+            emphasis: {
+                color: "rgba(0,0,0,0)",
+                borderWidth: 0
+            }
+        };
+        var dataStyle = {
+            normal: {
+                formatter: '幼年期',
+                position: 'center',
+                show: true,
+                textStyle: {
+                    fontSize: '18',
+                    fontWeight: 'normal',
+                    color: '#fff'
+                }
+            }
+        };
+        var ringChart = echarts.init(document.getElementById("record-ring-chart1"));
+        var ringoption = {
+            backgroundColor: 'rgba(0,0,0,0)',
+            title: [
+            {
+                text: '养殖阶段',
+                left: '57%',
+                top: '70%',
+                textAlign: 'center',
+                textStyle: {
+                    fontWeight: 'normal',
+                    fontSize: '14',
+                    color: '#fff',
+                    textAlign: 'center',
+                },
+            }],
+            series: [{
+                    type: 'pie',
+                    hoverAnimation: false, //鼠标经过的特效
+                    // radius: ['25%', '31%'],
+                    radius: ['90%', '60%'],
+                    center: ['60%', '50%'],
+                    startAngle: 225,
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center'
+                        }
+                    },
+                    data: [{
+                            value: 75,
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#99da69'
+                                    }, {
+                                        offset: 1,
+                                        color: '#01babc'
+                                    }]),
+                                }
+                            },
+                            label: dataStyle,
+                        }, {
+                            value: 25,
+                            itemStyle: placeHolderStyle,
+                        },
+
+                    ]
+                }
+            ]
+        
+        };
+        ringChart.setOption(ringoption);
+        $(window).resize(ringChart.resize);
+
+        var placeHolderStyle = {
+            normal: {
+                label: {
+                    show: false
+                },
+                labelLine: {
+                    show: false
+                },
+                color: "rgba(0,0,0,0)",
+                borderWidth: 0
+            },
+            emphasis: {
+                color: "rgba(0,0,0,0)",
+                borderWidth: 0
+            }
+        };
+        var dataStyle = {
+            normal: {
+                formatter: '36KG',
+                position: 'center',
+                show: true,
+                textStyle: {
+                    fontSize: '18',
+                    fontWeight: 'normal',
+                    color: '#fff'
+                }
+            }
+        };
+        var ringChart2 = echarts.init(document.getElementById("record-ring-chart2"));
+        var ringoption2 = {
+            backgroundColor: 'rgba(0,0,0,0)',
+            title: [
+            {
+                text: '体重',
+                left: '37%',
+                top: '70%',
+                textAlign: 'center',
+                textStyle: {
+                    fontWeight: 'normal',
+                    fontSize: '14',
+                    color: '#fff',
+                    textAlign: 'center',
+                },
+            }],
+            series: [{
+                    type: 'pie',
+                    hoverAnimation: false, //鼠标经过的特效
+                    // radius: ['25%', '31%'],
+                    radius: ['90%', '60%'],
+                    center: ['40%', '50%'],
+                    startAngle: 225,
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center'
+                        }
+                    },
+                    data: [{
+                            value: 75,
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#99da69'
+                                    }, {
+                                        offset: 1,
+                                        color: '#01babc'
+                                    }]),
+                                }
+                            },
+                            label: dataStyle,
+                        }, {
+                            value: 25,
+                            itemStyle: placeHolderStyle,
+                        },
+
+                    ]
+                }
+            ]
+        };
+        ringChart2.setOption(ringoption2);
+        $(window).resize(ringChart2.resize);
+
+        var placeHolderStyle = {
+            normal: {
+                label: {
+                    show: false
+                },
+                labelLine: {
+                    show: false
+                },
+                color: "rgba(0,0,0,0)",
+                borderWidth: 0
+            },
+            emphasis: {
+                color: "rgba(0,0,0,0)",
+                borderWidth: 0
+            }
+        };
+        var dataStyle = {
+            normal: {
+                formatter: '123只',
+                position: 'center',
+                show: true,
+                textStyle: {
+                    fontSize: '18',
+                    fontWeight: 'normal',
+                    color: '#fff'
+                }
+            }
+        };
+        var ringChart3 = echarts.init(document.getElementById("record-ring-chart3"));
+        var ringoption3 = {
+            backgroundColor: 'rgba(0,0,0,0)',
+            title: [
+            {
+                text: '数量',
+                left: '48%',
+                top: '65%',
+                textAlign: 'center',
+                textStyle: {
+                    fontWeight: 'normal',
+                    fontSize: '14',
+                    color: '#fff',
+                    textAlign: 'center',
+                },
+            }],
+            series: [{
+                    type: 'pie',
+                    hoverAnimation: false, //鼠标经过的特效
+                    // radius: ['25%', '31%'],
+                    radius: ['90%', '60%'],
+                    center: ['50%', '45%'],
+                    startAngle: 225,
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center'
+                        }
+                    },
+                    data: [{
+                            value: 75,
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#99da69'
+                                    }, {
+                                        offset: 1,
+                                        color: '#01babc'
+                                    }]),
+                                }
+                            },
+                            label: dataStyle,
+                        }, {
+                            value: 25,
+                            itemStyle: placeHolderStyle,
+                        },
+
+                    ]
+                }
+            ]
+        };
+        ringChart3.setOption(ringoption3);
+        $(window).resize(ringChart3.resize);
+        
+        
+    </script>
+    <script>
+        var RENDERER = {
+            POINT_INTERVAL : 5,
+            FISH_COUNT : 3,
+            MAX_INTERVAL_COUNT : 50,
+            INIT_HEIGHT_RATE : 0.5,
+            THRESHOLD : 50,
+            
+            init : function(){
+                this.setParameters();
+                this.reconstructMethods();
+                this.setup();
+                this.bindEvent();
+                this.render();
+            },
+            setParameters : function(){
+                this.$window = $(window);
+                this.$container = $('#jsi-flying-fish-container');
+                this.$canvas = $('<canvas />');
+                this.context = this.$canvas.appendTo(this.$container).get(0).getContext('2d');
+                this.points = [];
+                this.fishes = [];
+                this.watchIds = [];
+            },
+            createSurfacePoints : function(){
+                var count = Math.round(this.width / this.POINT_INTERVAL);
+                this.pointInterval = this.width / (count - 1);
+                this.points.push(new SURFACE_POINT(this, 0));
+                
+                for(var i = 1; i < count; i++){
+                    var point = new SURFACE_POINT(this, i * this.pointInterval),
+                        previous = this.points[i - 1];
+                        
+                    point.setPreviousPoint(previous);
+                    previous.setNextPoint(point);
+                    this.points.push(point);
+                }
+            },
+            reconstructMethods : function(){
+                this.watchWindowSize = this.watchWindowSize.bind(this);
+                this.jdugeToStopResize = this.jdugeToStopResize.bind(this);
+                this.startEpicenter = this.startEpicenter.bind(this);
+                this.moveEpicenter = this.moveEpicenter.bind(this);
+                this.reverseVertical = this.reverseVertical.bind(this);
+                this.render = this.render.bind(this);
+            },
+            setup : function(){
+                this.points.length = 0;
+                this.fishes.length = 0;
+                this.watchIds.length = 0;
+                this.intervalCount = this.MAX_INTERVAL_COUNT;
+                this.width = this.$container.width();
+                this.height = this.$container.height();
+                this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500;
+                this.$canvas.attr({width : this.width, height : this.height});
+                this.reverse = false;
+                
+                this.fishes.push(new FISH(this));
+                this.createSurfacePoints();
+            },
+            watchWindowSize : function(){
+                this.clearTimer();
+                this.tmpWidth = this.$window.width();
+                this.tmpHeight = this.$window.height();
+                this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL));
+            },
+            clearTimer : function(){
+                while(this.watchIds.length > 0){
+                    clearTimeout(this.watchIds.pop());
+                }
+            },
+            jdugeToStopResize : function(){
+                var width = this.$window.width(),
+                    height = this.$window.height(),
+                    stopped = (width == this.tmpWidth && height == this.tmpHeight);
+                    
+                this.tmpWidth = width;
+                this.tmpHeight = height;
+                
+                if(stopped){
+                    this.setup();
+                }
+            },
+            bindEvent : function(){
+                this.$window.on('resize', this.watchWindowSize);
+                this.$container.on('mouseenter', this.startEpicenter);
+                this.$container.on('mousemove', this.moveEpicenter);
+                this.$container.on('click', this.reverseVertical);
+            },
+            getAxis : function(event){
+                var offset = this.$container.offset();
+                
+                return {
+                    x : event.clientX - offset.left + this.$window.scrollLeft(),
+                    y : event.clientY - offset.top + this.$window.scrollTop()
+                };
+            },
+            startEpicenter : function(event){
+                this.axis = this.getAxis(event);
+            },
+            moveEpicenter : function(event){
+                var axis = this.getAxis(event);
+                
+                if(!this.axis){
+                    this.axis = axis;
+                }
+                this.generateEpicenter(axis.x, axis.y, axis.y - this.axis.y);
+                this.axis = axis;
+            },
+            generateEpicenter : function(x, y, velocity){
+                if(y < this.height / 2 - this.THRESHOLD || y > this.height / 2 + this.THRESHOLD){
+                    return;
+                }
+                var index = Math.round(x / this.pointInterval);
+                
+                if(index < 0 || index >= this.points.length){
+                    return;
+                }
+                this.points[index].interfere(y, velocity);
+            },
+            reverseVertical : function(){
+                this.reverse = !this.reverse;
+                
+                for(var i = 0, count = this.fishes.length; i < count; i++){
+                    this.fishes[i].reverseVertical();
+                }
+            },
+            controlStatus : function(){
+                for(var i = 0, count = this.points.length; i < count; i++){
+                    this.points[i].updateSelf();
+                }
+                for(var i = 0, count = this.points.length; i < count; i++){
+                    this.points[i].updateNeighbors();
+                }
+                if(this.fishes.length < this.fishCount){
+                    if(--this.intervalCount == 0){
+                        this.intervalCount = this.MAX_INTERVAL_COUNT;
+                        this.fishes.push(new FISH(this));
+                    }
+                }
+            },
+            render : function(){
+                requestAnimationFrame(this.render);
+                this.controlStatus();
+                this.context.clearRect(0, 0, this.width, this.height);
+                // this.context.fillStyle = '#00aeff';
+                this.context.fillStyle = '#0b0f34';
+                
+                for(var i = 0, count = this.fishes.length; i < count; i++){
+                    this.fishes[i].render(this.context);
+                }
+                this.context.save();
+                this.context.globalCompositeOperation = 'xor';
+                this.context.beginPath();
+                this.context.moveTo(0, this.reverse ? 0 : this.height);
+                
+                for(var i = 0, count = this.points.length; i < count; i++){
+                    this.points[i].render(this.context);
+                }
+                this.context.lineTo(this.width, this.reverse ? 0 : this.height);
+                this.context.closePath();
+                this.context.fill();
+                this.context.restore();
+            }
+        };
+        var SURFACE_POINT = function(renderer, x){
+            this.renderer = renderer;
+            this.x = x;
+            this.init();
+        };
+        SURFACE_POINT.prototype = {
+            SPRING_CONSTANT : 0.03,
+            SPRING_FRICTION : 0.9,
+            WAVE_SPREAD : 0.3,
+            ACCELARATION_RATE : 0.01,
+            
+            init : function(){
+                this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE;
+                this.height = this.initHeight;
+                this.fy = 0;
+                this.force = {previous : 0, next : 0};
+            },
+            setPreviousPoint : function(previous){
+                this.previous = previous;
+            },
+            setNextPoint : function(next){
+                this.next = next;
+            },
+            interfere : function(y, velocity){
+                this.fy = this.renderer.height * this.ACCELARATION_RATE * ((this.renderer.height - this.height - y) >= 0 ? -1 : 1) * Math.abs(velocity);
+            },
+            updateSelf : function(){
+                this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height);
+                this.fy *= this.SPRING_FRICTION;
+                this.height += this.fy;
+            },
+            updateNeighbors : function(){
+                if(this.previous){
+                    this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height);
+                }
+                if(this.next){
+                    this.force.next = this.WAVE_SPREAD * (this.height - this.next.height);
+                }
+            },
+            render : function(context){
+                if(this.previous){
+                    this.previous.height += this.force.previous;
+                    this.previous.fy += this.force.previous;
+                }
+                if(this.next){
+                    this.next.height += this.force.next;
+                    this.next.fy += this.force.next;
+                }
+                context.lineTo(this.x, this.renderer.height - this.height);
+            }
+        };
+        var FISH = function(renderer){
+            this.renderer = renderer;
+            this.init();
+        };
+        FISH.prototype = {
+            GRAVITY : 0.4,
+            
+            init : function(){
+                this.direction = Math.random() < 0.5;
+                this.x = this.direction ? (this.renderer.width + this.renderer.THRESHOLD) : -this.renderer.THRESHOLD;
+                this.previousY = this.y;
+                this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1);
+                
+                if(this.renderer.reverse){
+                    this.y = this.getRandomValue(this.renderer.height * 1 / 10, this.renderer.height * 4 / 10);
+                    this.vy = this.getRandomValue(2, 5);
+                    this.ay = this.getRandomValue(0.05, 0.2);
+                }else{
+                    this.y = this.getRandomValue(this.renderer.height * 6 / 10, this.renderer.height * 9 / 10);
+                    this.vy = this.getRandomValue(-5, -2);
+                    this.ay = this.getRandomValue(-0.2, -0.05);
+                }
+                this.isOut = false;
+                this.theta = 0;
+                this.phi = 0;
+            },
+            getRandomValue : function(min, max){
+                return min + (max - min) * Math.random();
+            },
+            reverseVertical : function(){
+                this.isOut = !this.isOut;
+                this.ay *= -1;
+            },
+            controlStatus : function(context){
+                this.previousY = this.y;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.ay;
+                
+                if(this.renderer.reverse){
+                    if(this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE){
+                        this.vy -= this.GRAVITY;
+                        this.isOut = true;
+                    }else{
+                        if(this.isOut){
+                            this.ay = this.getRandomValue(0.05, 0.2);
+                        }
+                        this.isOut = false;
+                    }
+                }else{
+                    if(this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE){
+                        this.vy += this.GRAVITY;
+                        this.isOut = true;
+                    }else{
+                        if(this.isOut){
+                            this.ay = this.getRandomValue(-0.2, -0.05);
+                        }
+                        this.isOut = false;
+                    }
+                }
+                if(!this.isOut){
+                    this.theta += Math.PI / 20;
+                    this.theta %= Math.PI * 2;
+                    this.phi += Math.PI / 30;
+                    this.phi %= Math.PI * 2;
+                }
+                this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY);
+                
+                if(this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD){
+                    this.init();
+                }
+            },
+            render : function(context){
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(Math.PI + Math.atan2(this.vy, this.vx));
+                context.scale(1, this.direction ? 1 : -1);
+                context.beginPath();
+                context.moveTo(-30, 0);
+                context.bezierCurveTo(-20, 15, 15, 10, 40, 0);
+                context.bezierCurveTo(15, -10, -20, -15, -30, 0);
+                context.fill();
+                
+                context.save();
+                context.translate(40, 0);
+                context.scale(0.9 + 0.2 * Math.sin(this.theta), 1);
+                context.beginPath();
+                context.moveTo(0, 0);
+                context.quadraticCurveTo(5, 10, 20, 8);
+                context.quadraticCurveTo(12, 5, 10, 0);
+                context.quadraticCurveTo(12, -5, 20, -8);
+                context.quadraticCurveTo(5, -10, 0, 0);
+                context.fill();
+                context.restore();
+                
+                context.save();
+                context.translate(-3, 0);
+                context.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1));
+                
+                context.beginPath();
+                
+                if(this.renderer.reverse){
+                    context.moveTo(5, 0);
+                    context.bezierCurveTo(10, 10, 10, 30, 0, 40);
+                    context.bezierCurveTo(-12, 25, -8, 10, 0, 0);
+                }else{
+                    context.moveTo(-5, 0);
+                    context.bezierCurveTo(-10, -10, -10, -30, 0, -40);
+                    context.bezierCurveTo(12, -25, 8, -10, 0, 0);
+                }
+                context.closePath();
+                context.fill();
+                context.restore();
+                context.restore();
+                this.controlStatus(context);
+            }
+        };
+        $(function(){
+            RENDERER.init();
+        });
     </script>
 </body>
 </html>
